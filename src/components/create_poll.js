@@ -4,10 +4,15 @@ import { Typography, Input, DatePicker, TimePicker, Button } from 'antd';
 const CreatePoll = () => {
 
 const [options, setOptions] = useState(['']);
+const [Ques, setQues] = useState('')
 const { Title } = Typography;
 
 const handleCreatePoll = () => {
-    // Handle create poll logic here
+    const pollData = {
+        question: Ques,
+        options: options.filter((option) => option !== ''),
+    };
+    console.log(pollData);
 };
 
 const handleOptionChange = (index, value) => {
@@ -20,13 +25,18 @@ const handleAddOption = () => {
     setOptions([...options, '']);
 };
 
+const handleRemoveOption = () => {
+    setOptions([...options].slice(0, -1));
+};
+
 return (
     <div style={{ margin: '50px' }}>
 
         <Title level={2}>Create New Poll</Title><br /><br />
 
         <label>Poll Question:</label><br /><br />
-        <Input placeholder="Enter poll title" style={{ width: '300px' }}/><br /><br />
+        <Input placeholder="Enter poll title" style={{ width: '300px' }} 
+        onChange={(e)=>{setQues(e.target.value)}}/><br /><br />
 
         <label>Start Time:</label><br /><br />
         <DatePicker style={{ marginRight: '25px' }}/>
@@ -48,7 +58,7 @@ return (
             </React.Fragment>
         ))}
         
-        <Button type="default" style={{ marginRight: '25px' }}>Remove</Button>
+        <Button type="default" style={{ marginRight: '25px' }} onClick={handleRemoveOption}>Remove</Button>
         <Button type="default" onClick={handleAddOption}>Add</Button><br /><br />
         <Button type="primary" onClick={handleCreatePoll}>Create</Button>
 

@@ -1,27 +1,23 @@
+const connectToMongoDB=require('./mongoDb');
 const mongoose = require('mongoose');
-const { MongoClient } = require('mongodb');
-const express = require('express');
-const cors = require('cors');
 
-const app = express();
-const port = 5001;
-const uri = 'mongodb+srv://nirnaymittal:myself5430@cluster0.gzoaymz.mongodb.net/?retryWrites=true&w=majority';
+let mongoClient;
 
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-async function connectToMongoDB() {
-	try {
-		await client.connect();
-		await client.db().command({ ping: 1 });
-		console.log('Pinged your deployment. You successfully connected to MongoDB!');
-	}
-	catch (error) {
-		console.error('Failed to connect to MongoDB:', error);
-	}
+async function startApplication() {
+  try {
+    mongoClient = await connectToMongoDB();
+  } catch (err) {
+    console.error('Error starting application:', err);
+  }
 }
-
-connectToMongoDB();
-
+startApplication();
+process.on('SIGINT', () => {
+	if (mongoClient) {
+	  mongoClient.close();
+	  console.log('MongoDB connection closed');
+	}
+	process.exit(0);
+  });
 const UserSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -37,29 +33,41 @@ const UserSchema = new mongoose.Schema({
 		default: Date.now,
 	},
 });
-
 const User = mongoose.model('Users', UserSchema);
 
+// For backend and express
+const express = require('express');
+const app = express();
+const cors = require("cors");
+console.log("App listen at port 5001");
 app.use(express.json());
 app.use(cors());
+app.get("/", (req, resp) => {
 
-app.get('/', (req, resp) => {
-	resp.send('App is working');
+	resp.send("App is Working");
+	mongoClient.db("nirnay").collection('Users').insertOne({'name' :"Pranay" , 'email' :'pranay@test.com'})
+	// You can check backend is working or not by
+	// entering http://loacalhost:5000
+	
+	// If you see App is working means
+	// backend working properly
 });
 
-app.post('/register', async (req, resp) => {
+app.post("/register", async (req, resp) => {
 	try {
 		const user = new User(req.body);
-		const result = await user.save();
-		const { password, ...userData } = result.toObject();
-		resp.send(userData);
-		console.log(userData);
-	} catch (error) {
-		console.error('Failed to register user:', error);
-		resp.status(500).send('Something went wrong');
+		let result = await user.save();
+		result = result.toObject();
+		if (result) {
+			delete result.password;
+			resp.send(req.body);
+			console.log(result);
+		} else {
+			console.log("User already register");
+		}
+
+	} catch (e) {
+		resp.send("Something Went Wrong");
 	}
 });
-
-app.listen(port, () => {
-	console.log(`App listening at http://localhost:${port}`);
-});
+app.listen(5001);

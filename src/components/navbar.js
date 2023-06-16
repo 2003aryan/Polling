@@ -23,7 +23,7 @@ const Navbar = () => {
                     Login / Signup
                 </span>
             </div>
-        </nav><br/></div>
+        </nav></div>
     )
 }
 

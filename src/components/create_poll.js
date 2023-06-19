@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Input, DatePicker, TimePicker, Button } from 'antd';
+import './CreatePoll.css';
 
 const CreatePoll = () => {
 
@@ -38,40 +39,42 @@ const CreatePoll = () => {
     };
 
     return (
-        <div style={{ margin: '50px' }}>
+        <div className=' p-5 col-5 mx-auto shadow' style={{ borderRadius: '40px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)', marginBottom:'5%'}}>
 
             <Title level={2}>Create New Poll</Title><br />
 
-            <label>Poll Question:</label><br /><br />
-            <Input placeholder="Enter poll title" style={{ width: '300px' }}
-                onChange={(e) => { setQues(e.target.value) }} /><br /><br />
+            <label>Poll Question:</label><br />
+            <Input placeholder="Enter poll title" style={{ width: '500px' }}
+                onChange={(e) => { setQues(e.target.value) }} className='inputBg col'/><br /><br />
 
             <label>Start Time:</label>
-            <br /><br />
-            <DatePicker onChange={(date, dateString) => setStartDate(dateString)} />
-            <TimePicker onChange={(time, timeString) => setStartTime(timeString)} />
+            <br />
+            <DatePicker onChange={(date, dateString) => setStartDate(dateString)} style={{ marginRight: '30px' }} className='inputBg'/>
+            <TimePicker onChange={(time, timeString) => setStartTime(timeString)} className='inputBg'/>
             <br /><br />
             <label>End Time:</label>
-            <br /><br />
-            <DatePicker onChange={(date, dateString) => setEndDate(dateString)} />
-            <TimePicker onChange={(time, timeString) => setEndTime(timeString)} />
+            <br />
+            <DatePicker onChange={(date, dateString) => setEndDate(dateString)} style={{ marginRight: '30px' }} className='inputBg'/>
+            <TimePicker onChange={(time, timeString) => setEndTime(timeString)} className='inputBg'/>
             <br /><br />
 
-            <label>Options:</label><br /><br />
+            <label>Options:</label><br />
             {options.map((option, index) => (
                 <React.Fragment key={index}>
+                    {index+1 + '.  '}
                     <Input
                         value={option}
                         onChange={(e) => handleOptionChange(index, e.target.value)}
                         placeholder="Enter choice"
-                        style={{ width: '300px' }} />
+                        style={{ width: '275px' }} 
+                        className='inputBg col'/>
                     <br /><br />
                 </React.Fragment>
             ))}
 
-            <Button type="default" style={{ marginRight: '25px' }} onClick={handleRemoveOption}>Remove</Button>
-            <Button type="default" onClick={handleAddOption}>Add</Button><br /><br />
-            <Button type="primary" onClick={handleCreatePoll}>Create</Button>
+            <Button type="primary" style={{ marginRight: '30px' }} onClick={handleRemoveOption} className='buttonBg'>Remove</Button>
+            <Button type="primary" onClick={handleAddOption} className='buttonBg'>Add</Button><br /><br />
+            <Button type="primary" onClick={handleCreatePoll} className='buttonBg'>Create</Button>
 
         </div>
     );

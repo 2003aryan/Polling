@@ -1,18 +1,18 @@
-const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://nirnaymittal:myself5430@cluster0.gzoaymz.mongodb.net/?retryWrites=true&w=majority";
+const { MongoClient } = require('mongodb');
+// const uri = "mongodb+srv://nirnaymittal:myself5430@cluster0.gzoaymz.mongodb.net/?retryWrites=true&w=majority";
+const uri = "mongodb+srv://aryangarg:polling123@aryan.bej9llo.mongodb.net/?retryWrites=true&w=majority";
 
 async function connectToMongoDB() {
-    try {
+  try {
     const client = await MongoClient.connect(uri);
     console.log('Connected to MongoDB');
+    return client;
+  }
 
-    // Perform any necessary setup or operations here
-
-    return client; // Return the client object for later use
-  } catch (err) {
+  catch (err) {
     console.error('Error connecting to MongoDB:', err);
     throw err;
   }
 }
 
-module.exports =connectToMongoDB;
+module.exports = connectToMongoDB;

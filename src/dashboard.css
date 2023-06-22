@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+}
+
+.row {
+    flex: 1;
+    /* Take up remaining horizontal space */
+}
+
+.column {
+    flex: 1;
+    /* Equal-width columns */
+    padding: 10px;
+}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Input, DatePicker, TimePicker, Button } from 'antd';
-import './CreatePoll.css';
+import '../css/CreatePoll.css';
 
 const CreatePoll = () => {
 

@@ -3,16 +3,16 @@ const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://aryangarg:polling123@aryan.bej9llo.mongodb.net/?retryWrites=true&w=majority";
 
 async function connectToMongoDB() {
-  try {
-    const client = await MongoClient.connect(uri);
-    console.log('Connected to MongoDB');
-    return client;
-  }
+    try {
+        const client = await MongoClient.connect(uri);
+        console.log('Connected to MongoDB');
+        return client;
+    }
 
-  catch (err) {
-    console.error('Error connecting to MongoDB:', err);
-    throw err;
-  }
+    catch (err) {
+        console.error('Error connecting to MongoDB:', err);
+        throw err;
+    }
 }
 
 module.exports = connectToMongoDB;

@@ -41,24 +41,15 @@ const CreatePoll = () => {
     };
 
     const saveDataToDatabase = (pollData) => {
-        fetch('/api/polls/savedata', {
+        fetch('http://localhost:5001/api/polls/savedata', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(pollData),
         })
           .then((res) => res.json())
-          .then((data) => {
-            console.log(data);
-            // Handle the response if needed
-          })
-          .catch((error) => {
-            console.error('Error saving data:', error);
-            // Handle the error if needed
-          });
+          .then((data) => console.log(data))
+          .catch((error) => console.error('Error saving data:', error));
       };
-    
     
     return (
         <div className=' p-5 col-5 mx-auto shadow' style={{ borderRadius: '40px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)', marginBottom:'5%'}}>

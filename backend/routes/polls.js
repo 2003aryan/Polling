@@ -1,8 +1,9 @@
 const router = require('express-promise-router')();
 const connectToMongoDB = require('../mongoDb.js');
 const bodyParser = require('body-parser');
+const { ObjectId } = require('mongodb');
 
-let collection; // Store the reference to the collection
+let collection;
 
 async function initializeCollection() {
     const client = await connectToMongoDB();
@@ -10,19 +11,23 @@ async function initializeCollection() {
     collection = database.collection('mycollection');
 }
 
-// Initialize the collection
 initializeCollection().catch(err => {
     console.error('Error initializing collection:', err);
-    process.exit(1); // Exit the process if collection initialization fails
+    process.exit(1);
 });
 
-// Parse JSON request bodies
 router.use(bodyParser.json());
 
 router.get('/pollslist', async (req, res) => {
-    const query = {};
-    const result = await collection.find(query).toArray();
+    const result = await collection.find({}).toArray();
     res.json(result);
+});
+
+router.get('/poll/:id', async (req, res) => {
+    const pollId = req.params.id;
+    const query = { _id: new ObjectId(pollId) };
+    const poll = await collection.findOne(query);
+    res.json(poll);
 });
 
 router.post('/savedata', async (req, res) => {
@@ -39,7 +44,6 @@ router.post('/savedata', async (req, res) => {
 
     const result = await collection.insertOne(pollData);
     console.log(result);
-
     res.json({ message: 'Data saved successfully' });
 });
 

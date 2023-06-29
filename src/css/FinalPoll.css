@@ -1,0 +1,9 @@
+.option {
+    border-radius: 0.75rem;
+    padding: 0.5rem;
+    border: 1px solid #7C5026;
+  }
+  
+.buttonBg {
+    background-color: #7C5026;
+}  

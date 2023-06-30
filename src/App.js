@@ -2,8 +2,10 @@ import React from 'react';
 import CreatePoll from './components/CreatePoll';
 import Navbar from './components/navbar';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Dashboard from './components/dashboard';
+import PollsList from './components/PollsList';
 import FinalPoll from './components/FinalPoll';
+import Register from './components/Register';
+import Login from './components/Login';
 
 function App() {
 	return (
@@ -12,8 +14,10 @@ function App() {
 				<Navbar />
 				<Switch>
 					<Route exact path="/" component={CreatePoll} />
-					<Route exact path="/dashboard" component={Dashboard} />
+					<Route exact path="/pollslist" component={PollsList} />
 					<Route exact path="/finalpoll/:id" component={FinalPoll} />
+					<Route exact path="/register" component={Register} />
+					<Route exact path="/login" component={Login} />
 				</Switch>
 			</div>
 		</BrowserRouter>

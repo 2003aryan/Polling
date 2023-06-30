@@ -1,18 +1,36 @@
 import React, { useState } from 'react';
 import { Typography, Input, DatePicker, TimePicker, Button } from 'antd';
 import '../css/CreatePoll.css';
+import moment from 'moment';
 
 const CreatePoll = () => {
 
+    const { Title } = Typography;
     const [options, setOptions] = useState(['']);
     const [Ques, setQues] = useState('')
-    const [startDate, setStartDate] = useState('')
-    const [startTime, setStartTime] = useState('')
+    const [startDate, setStartDate] = useState();
+    const [startTime, setStartTime] = useState();
     const [endDate, setEndDate] = useState('')
     const [endTime, setEndTime] = useState('')
-    const { Title } = Typography;
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleCreatePoll = () => {
+
+        const trimmedQuestion = Ques.trim();
+        if (trimmedQuestion === '') {
+            setErrorMessage('Please enter the poll question.');
+        return;}
+
+        const selectedStartDate = new Date(startDate + 'T' + startTime);
+        const currentDate = new Date();
+        if (selectedStartDate < currentDate) {
+            setErrorMessage('Start date cannot be in the past.');
+        return;}
+
+        if (options.length < 2) {
+            setErrorMessage('Please fill at least two options.');
+        return;}
+
         const pollData = {
             question: Ques,
             startDate: startDate,
@@ -25,6 +43,17 @@ const CreatePoll = () => {
         saveDataToDatabase(pollData);
 
     };
+
+    const saveDataToDatabase = (pollData) => {
+        fetch('http://localhost:5001/api/polls/savedata', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(pollData),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data))
+          .catch((error) => console.error('Error saving data:', error));
+      };
 
     const handleOptionChange = (index, value) => {
         const updatedOptions = [...options];
@@ -39,17 +68,6 @@ const CreatePoll = () => {
     const handleRemoveOption = () => {
         setOptions([...options].slice(0, -1));
     };
-
-    const saveDataToDatabase = (pollData) => {
-        fetch('http://localhost:5001/api/polls/savedata', {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(pollData),
-        })
-          .then((res) => res.json())
-          .then((data) => console.log(data))
-          .catch((error) => console.error('Error saving data:', error));
-      };
     
     return (
         <div className=' p-5 col-5 mx-auto shadow' style={{ borderRadius: '40px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)', marginBottom:'5%'}}>
@@ -62,13 +80,13 @@ const CreatePoll = () => {
 
             <label>Start Time:</label>
             <br />
-            <DatePicker onChange={(date, dateString) => setStartDate(dateString)} style={{ marginRight: '30px' }} className='inputBg'/>
-            <TimePicker onChange={(time, timeString) => setStartTime(timeString)} className='inputBg'/>
+            <DatePicker defaultValue={moment()} onChange={(date, dateString) => setStartDate(dateString)} style={{ marginRight: '30px' }} className='inputBg'/>
+            <TimePicker defaultValue={moment()} format="h:mm A" onChange={(time, timeString) => setStartTime(timeString)} className='inputBg'/>
             <br /><br />
             <label>End Time:</label>
             <br />
             <DatePicker onChange={(date, dateString) => setEndDate(dateString)} style={{ marginRight: '30px' }} className='inputBg'/>
-            <TimePicker onChange={(time, timeString) => setEndTime(timeString)} className='inputBg'/>
+            <TimePicker format="h:mm A" onChange={(time, timeString) => setEndTime(timeString)} className='inputBg'/>
             <br /><br />
 
             <label>Options:</label><br />
@@ -85,9 +103,12 @@ const CreatePoll = () => {
                 </React.Fragment>
             ))}
 
-            <Button type="primary" style={{ marginRight: '30px' }} onClick={handleRemoveOption} className='buttonBg'>Remove</Button>
-            <Button type="primary" onClick={handleAddOption} className='buttonBg'>Add</Button><br /><br />
-            <Button type="primary" onClick={handleCreatePoll} className='buttonBg'>Create</Button>
+            <Button type="primary" style={{ marginRight: '30px', width: '90px' }} onClick={handleRemoveOption} className='buttonBg'>Remove</Button>
+            <Button type="primary" onClick={handleAddOption} style={{ width: '90px' }}className='buttonBg'>Add</Button><br /><br />
+            <Button type="primary" onClick={handleCreatePoll} style={{ width: '210px' }} className='buttonBg'>Create Poll</Button>
+
+            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+
 
         </div>
     );

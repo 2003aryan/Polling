@@ -9,20 +9,20 @@ const Navbar = () => {
             <div className="collapse navbar-collapse" id="navbarText" >
                 <ul className="navbar-nav mr-auto">
                     <li className="nav-item">
-                        <Link className="nav-link" to="/dashboard">Polls List</Link>
+                        <Link className="nav-link" to="/pollslist">Polls List</Link>
                     </li>
                     <li className="nav-item active">
                         <Link className="nav-link" to="/">Create Poll <span className="sr-only">(current)</span></Link>
                     </li>
                     <li className="nav-item">
-                        <Link className="nav-link" to="#">Edit Poll</Link>
-                    </li>
-                    <li className="nav-item">
                         <Link className="nav-link" to="#">FAQs</Link>
                     </li>
                 </ul>
+                <span className="navbar-text border px-3 rounded text-white mr-3">
+                    <Link to="/login">Login</Link>                    
+                </span>
                 <span className="navbar-text border px-3 rounded text-white">
-                    Login / Sign Up
+                    <Link to="/register">Sign Up</Link>                    
                 </span>
             </div>
         </nav>

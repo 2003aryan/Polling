@@ -13,3 +13,19 @@
 a {
     color: white
 }
+
+.iconBg {
+    background-color: #dfc298;
+}
+
+/* DatePicker {
+    width: 150px;
+}
+
+TimePicker {
+    width: 150px;
+} */
+
+.sameWidth {
+    width: 130px;
+}

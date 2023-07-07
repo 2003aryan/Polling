@@ -36,7 +36,7 @@ const PollsList = () => {
   const renderMenu = (record) => (
     <Menu>
       <Menu.Item key="1">
-        <Link to={`/editpoll/${record._id}`}>Edit</Link>
+        <Link to={`/viewpoll/${record._id}`}>View</Link>
       </Menu.Item>
       <Menu.Item key="2">
         <Link to={`/deletepoll/${record._id}`}>Delete</Link>
@@ -63,7 +63,7 @@ const PollsList = () => {
           dataIndex="question"
           key="question"
           render={(text, record) => (
-            <Link to={`/finalpoll/${record._id}`} style={{ color: 'black', display: 'block' }}>
+            <Link to={`/viewpoll/${record._id}/pollresults`} style={{ color: 'black', display: 'block' }}>
               {text}
             </Link>
           )}

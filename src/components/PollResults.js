@@ -73,7 +73,7 @@ const PollResults = () => {
     return (
         <div className=''>
             <div><Pie {...config} /></div>
-            <Button onClick={{history.push("/viewpoll/${id}")}}></Button>
+            <Button onClick={{}}></Button>
     </div>
     );
 };

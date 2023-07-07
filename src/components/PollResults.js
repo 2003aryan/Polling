@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Pie } from '@ant-design/plots';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { Button } from 'antd';
 
 const PollResults = () => {
@@ -33,6 +33,8 @@ const PollResults = () => {
     ];
 
     const [answers, setAnswers] = useState([]);
+    const history = useHistory();
+
     let { id } = useParams();
 
     useEffect(() => {
@@ -68,12 +70,15 @@ const PollResults = () => {
             },
         ],
     };
-    const useHistory = useHistory();
+
+    const handlePage = () => {
+        history.push(`/viewpoll/${id}`)
+    }
 
     return (
         <div className=''>
             <div><Pie {...config} /></div>
-            <Button onClick={{}}></Button>
+            <Button onClick={handlePage}>View Poll</Button>
     </div>
     );
 };

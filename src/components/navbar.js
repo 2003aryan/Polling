@@ -15,9 +15,11 @@ const Navbar = () => {
                     <li className="nav-item active">
                         <Link className="nav-link" to="/">Create Poll <span className="sr-only">(current)</span></Link>
                     </li>
-                    {userCtx.uuid && <li className="nav-item">
+                    {/* {userCtx.uuid && <li className="nav-item">
                         <Link className="nav-link" to="/pollslist">Polls List</Link>
-                    </li>}
+                    </li>} */}
+                    <li><Link className="nav-link" to="/pollslist">Polls List</Link></li>
+
                     <li className="nav-item">
                         {/* <Link className="nav-link" to="#">FAQs</Link> */}
                     </li>

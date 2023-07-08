@@ -2,7 +2,8 @@ import { createContext } from 'react';
 
 const UserContext = createContext({
     uuid: '',
-    setUuid: () => { },
+    globalLogoutHandler: () => { },
+    globalLoginHandler : () => { }, 
 });
 
 export default UserContext;

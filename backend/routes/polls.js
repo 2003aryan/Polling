@@ -58,20 +58,37 @@ router.post('/viewpoll/:id/saveans', async (req, res) => {
 
 router.get('/viewpoll/:id/pollresults', async (req, res) => {
     const pollId = req.params.id;
+    console.log(pollId)
+    let data;
     // const query = { _id: new ObjectId(pollId) };
-    const poll = await answers.aggregate([
-        { $match: { questionid: pollId } }, // Match documents within a date range
-        { $group: { ans: "$ans", questionid: "$questionid", resCount: { $sum: 1 } } }, // Group by product and calculate total sales
-    ]).toArray(function (err, results) {
-        if (err) {
-            console.log('Error retrieving data from MongoDB:', err);
-            return;
+    const poll = await answers//.find({questionid: pollId })
+    .aggregate([
+        {
+          $match: {
+            questionid: pollId
+          }
+        },
+        {
+          $group: {
+            _id: {
+              questionid: '$questionid',
+              ans: '$ans'
+            },
+            count: { $sum: 1 }
+          }
+        },
+        {
+          $project: {
+            _id: 0,
+            answer: '$_id.ans',
+            count: 1
+          }
         }
-        console.log('Response count:', results);
-    });
+      ])
+      .toArray().then(result    => data= result )
 
-    console.log(poll);
-    res.json(poll);
+    console.log(data);
+    res.json(data);
 });
 
 module.exports = router;

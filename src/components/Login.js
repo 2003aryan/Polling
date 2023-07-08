@@ -27,7 +27,7 @@ const Login = () => {
       .then(data => {
         console.log('Login response:', data);
         if (data.message === 'Login successful') {
-          userCtx.setUuid(data.userId); // Set the UUID in the context
+          userCtx.globalLoginHandler(data.userId); // Set the UUID in the context
           history.push('/pollslist');
         } else {
           console.log('Login failed:', data.message);

@@ -7,6 +7,7 @@ import ViewPoll from './components/ViewPoll';
 import Register from './components/Register';
 import Login from './components/Login';
 import PollResults from './components/PollResults';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
 	return (
@@ -14,12 +15,13 @@ function App() {
 			<div>
 				<Navbar />
 				<Switch>
-					<Route exact path="/" component={CreatePoll} />
-					<Route exact path="/pollslist" component={PollsList} />
-					<Route exact path="/viewpoll/:id" component={ViewPoll} />
+					<Route exact path="/" component={Login} />
+					<PrivateRoute exact path="/createPoll" component={CreatePoll} />
+					<PrivateRoute exact path="/pollslist" component={PollsList} />
+					<PrivateRoute exact path="/viewpoll/:id" component={ViewPoll} />
 					<Route exact path="/register" component={Register} />
 					<Route exact path="/login" component={Login} />
-					<Route exact path="/viewpoll/:id/pollresults" component={PollResults}/>
+					<PrivateRoute exact path="/viewpoll/:id/pollresults" component={PollResults}/>
 				</Switch>
 			</div>
 		</BrowserRouter>

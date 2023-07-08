@@ -5,32 +5,6 @@ import { useParams, useHistory } from 'react-router-dom';
 import { Button } from 'antd';
 
 const PollResults = () => {
-    const data = [
-        {
-            type: '分类一',
-            value: 27,
-        },
-        {
-            type: '分类二',
-            value: 25,
-        },
-        {
-            type: '分类三',
-            value: 18,
-        },
-        {
-            type: '分类四',
-            value: 15,
-        },
-        {
-            type: '分类五',
-            value: 10,
-        },
-        {
-            type: '其他',
-            value: 5,
-        },
-    ];
 
     const [answers, setAnswers] = useState([]);
     const history = useHistory();
@@ -42,18 +16,18 @@ const PollResults = () => {
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
-                setAnswers(answers);
+                setAnswers(data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
     }, []);
 
-    const config = {
+    let config = {
         appendPadding: 10,
-        data,
-        angleField: 'value',
-        colorField: 'type',
+        data : answers,
+        angleField: 'count',
+        colorField: 'answer',
         radius: 0.9,
         label: {
             type: 'inner',
@@ -77,7 +51,7 @@ const PollResults = () => {
 
     return (
         <div className=''>
-            <div><Pie {...config} /></div>
+            {answers && answers.length > 0 && <div><Pie {...config} /></div>}
             <Button onClick={handlePage}>View Poll</Button>
     </div>
     );

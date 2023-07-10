@@ -5,6 +5,12 @@
     background-color: white;
 }
 
+.nav-kc {
+    background-color: white;
+    border-bottom: 1px solid #ccc;
+    color: navy;
+}
+
 .blueBg {
     background-color: navy;
 }

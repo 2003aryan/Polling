@@ -18,7 +18,7 @@ function App() {
 					<Route exact path="/" component={Login} />
 					<PrivateRoute exact path="/createPoll" component={CreatePoll} />
 					<PrivateRoute exact path="/pollslist" component={PollsList} />
-					<PrivateRoute exact path="/viewpoll/:id" component={ViewPoll} />
+					<Route exact path="/viewpoll/:id" component={ViewPoll} />
 					<Route exact path="/register" component={Register} />
 					<Route exact path="/login" component={Login} />
 					<PrivateRoute exact path="/viewpoll/:id/pollresults" component={PollResults}/>

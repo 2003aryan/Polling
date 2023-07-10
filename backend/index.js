@@ -1,7 +1,7 @@
 const connectToMongoDB = require('./mongoDb.js');
 const express = require('express');
 const app = express();
-const pollsRouter = require('./routes/polls');
+const pollsRouter = require('./routes/PollsApi.js');
 const userRouter = require('./routes/UserApi');
 const cors = require('cors');
 

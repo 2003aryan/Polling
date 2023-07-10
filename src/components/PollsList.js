@@ -3,7 +3,7 @@ import { Table, Typography, Tag, Dropdown, Menu } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import { Link } from 'react-router-dom';
-import "../css/PollsList.css";
+// import "../css/PollsList.css";
 
 const { Title } = Typography;
 

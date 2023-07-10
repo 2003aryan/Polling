@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { Typography, Input, Button } from 'antd';
-import '../css/CreatePoll.css';
+import '../css/Master.css';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
@@ -58,37 +58,37 @@ const Register = () => {
     };
 
     return (
-            <div className='p-5 col-4 mx-auto shadow' style={{ borderRadius: '40px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)', marginBottom: '5%' }}>
-                <Title level={2} className='text-center mb-0'>Create a free account</Title>
+            <div className='component p-5 col-4 mx-auto shadow'>
+            <Title level={2} className='text-center mb-0' style={{ color: 'navy' }}>Create a free account</Title>
                 <div className='text-center '>
-                    <Link to="/login" style={{ fontSize: '14px', color: '#7C5026' }}>Or log in to your account</Link>
+                    <Link to="/login" style={{ fontSize: '14px', color: 'navy' }}>Or log in to your account</Link>
                 </div><br />
 
                 <label>Name:</label><br />
                 <Input placeholder="Enter your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className='inputBg col' /><br /><br />
+                    className='col' /><br /><br />
 
                 <label>Email:</label><br />
                 <Input placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className='inputBg col' /><br /><br />
+                    className='col' /><br /><br />
 
                 <label>Password:</label><br />
                 <Input.Password placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className='inputBg col' /><br /><br />
+                    className='col' /><br /><br />
 
                 <label>Confirm Password:</label><br />
                 <Input.Password placeholder="Enter your confirm password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className='inputBg col' /><br /><br /><br />
+                    className='col' /><br /><br /><br />
 
-                <Button type="primary" onClick={handleRegister} className='buttonBg col'>Register</Button>
+                <Button type="primary" onClick={handleRegister} className='blueBg col'>Register</Button>
 
                 {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
                 {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}

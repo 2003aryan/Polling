@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Typography, Input, DatePicker, TimePicker, Button } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import '../css/CreatePoll.css';
+// import '../css/CreatePoll.css';
+import '../css/Master.css'
 import moment from 'moment';
 
 const CreatePoll = () => {
@@ -81,9 +82,9 @@ const CreatePoll = () => {
     };
     
     return (
-        <div className=' p-5 col-5 mx-auto shadow' style={{ borderRadius: '40px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)', marginBottom:'5%'}}>
+        <div className='component p-5 col-5 mx-auto shadow' >
 
-            <Title level={2} style={{ textAlign: 'center' }}>Create New Poll</Title>
+            <Title level={2} style={{ textAlign: 'center', color: 'navy' }}>Create New Poll</Title>
 
             <label>Question:</label><br />
             <Input placeholder="Enter poll title" style={{ width: '500px' }}
@@ -118,7 +119,7 @@ const CreatePoll = () => {
             <Button type="primary" onClick={handleAddOption} style={{ width: '90px' }}className='buttonBg'>Add</Button><br /><br /> */}
             <Button type="primary" style={{ marginRight: '10px' }} onClick={handleRemoveOption} className='iconBg' shape="circle" icon={<MinusOutlined />}></Button>
             <Button type="primary" onClick={handleAddOption} className='iconBg' shape="circle" icon={<PlusOutlined />}></Button><br /><br />
-            <Button type="primary" onClick={handleCreatePoll} className='buttonBg col sameWidth'>Submit</Button>
+            <Button type="primary" onClick={handleCreatePoll} className='buttonBg col sameWidth' style={{backgroundColor: 'navy'}}>Submit</Button>
 
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}

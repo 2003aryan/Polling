@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { Typography, Input, Button } from 'antd';
-import '../css/CreatePoll.css';
+// import '../css/CreatePoll.css';
+import '../css/Master.css'
 import { Link, useHistory } from 'react-router-dom';
 import UserContext from '../store/UserContext';
 
@@ -41,26 +42,26 @@ const Login = () => {
   };
 
   return (
-    <div className='p-5 col-4 mx-auto shadow' style={{ borderRadius: '40px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)', marginBottom: '5%' }}>
+    <div className='component p-5 col-4 mx-auto shadow'>
 
-      <Title level={2} className='text-center mb-0'>Log in to your account</Title>
+      <Title level={2} className='text-center mb-0' style={{color: 'navy'}}>Log in to your account</Title>
       <div className='text-center '>
-        <Link to="/register" style={{ fontSize: '14px', color: 'black' }}>Or create a free account</Link>
+        <Link to="/register" style={{ fontSize: '14px', color: 'navy' }}>Or create a free account</Link>
       </div><br />
 
       <label>Email:</label><br />
       <Input placeholder="Enter your email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        className='inputBg col' /><br /><br />
+        className='col' /><br /><br />
 
       <label>Password:</label><br />
       <Input.Password placeholder="Enter your password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        className='inputBg col' /><br /><br /><br />
+        className='col' /><br /><br /><br />
 
-      <Button type="primary" onClick={handleLogin} className='buttonBg col'>Log In</Button>
+      <Button type="primary" onClick={handleLogin} className='blueBg col' >Log In</Button>
 
       {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
 

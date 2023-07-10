@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Radio, Space, Button } from 'antd';
-import '../css/ViewPoll.css';
+import { Typography, Radio, Space, Button, Input } from 'antd';
+import '../css/Master.css';
 import { useParams } from 'react-router-dom';
 
 const ViewPoll = () => {
@@ -8,6 +8,8 @@ const ViewPoll = () => {
     const { Title } = Typography;
     const [ans, setAns] = useState('');
     const [poll, setPoll] = useState({});
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     
     let { id } = useParams();
 
@@ -24,7 +26,7 @@ const ViewPoll = () => {
     }, []);
 
     const handleAns = () => {
-        const data = { ans, questionid: id }
+        const data = { ans, questionid: id, name, email }
         console.log('Submitting answer:', data);
         saveAns(data);
     };
@@ -37,8 +39,8 @@ const ViewPoll = () => {
         })};
 
     return (
-        <div className=' py-4 px-5 col-5 mx-auto shadow' style={{ borderRadius: '40px', boxShadow: '5px 5px 10px rgba(0, 0, 0, 0.2)', marginBottom: '5%' }}>
-            <Title level={3}>{poll.question}</Title>
+        <div className='component py-4 px-5 col-5 mx-auto shadow'>
+            <Title level={4} className='mb-4'>{poll.question}</Title>
             <Radio.Group onChange={(e) => { setAns(e.target.value) }} value={ans} style={{ width: "100%" }}>
                 <Space direction="vertical" style={{ width: "100%" }}>
                     {poll.options && poll.options.map((option, index) => (
@@ -48,8 +50,15 @@ const ViewPoll = () => {
                         ))
                     }
                 </Space>
-            </Radio.Group><br/><br/>
-            <Button type="primary" className='buttonBg' onClick={handleAns}>Submit</Button>
+            </Radio.Group>
+
+            {/* <label className='mt-5 font-weight-bold'>Name:</label><br /> */}
+            <Title level={5} className='mt-5'>Name:</Title>
+            <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} onChange={(e) => { setName(e.target.value) }} className='option col' />
+
+            <Title level={5} className='mt-3'>Email:</Title>
+            <Input placeholder="Enter your name" style={{ width: '500px' }} value={email} onChange={(e) => { setEmail(e.target.value) }} className='option col' /><br /><br /><br />
+            <Button type="primary" className='blueBg' onClick={handleAns} style={{width: '130px'}}>Submit</Button><br /><br />
         </div>
     );
 };

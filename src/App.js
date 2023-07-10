@@ -1,6 +1,5 @@
 import React from 'react';
 import CreatePoll from './components/CreatePoll';
-import Navbar from './components/navbar';
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import PollsList from './components/PollsList';
 import ViewPoll from './components/ViewPoll';
@@ -8,6 +7,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 import PollResults from './components/PollResults';
 import PrivateRoute from './components/PrivateRoute';
+import Navbar from './components/navbar.js';
 
 function App() {
 	return (

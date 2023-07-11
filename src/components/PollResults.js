@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import { Pie } from '@ant-design/plots';
+import { Bar, Pie } from '@ant-design/plots';
 import { useParams, useHistory } from 'react-router-dom';
 import { Button } from 'antd';
+import '../css/Master.css';
 
 const PollResults = () => {
 
@@ -23,7 +24,7 @@ const PollResults = () => {
             });
     }, []);
 
-    let config = {
+    let pieConfig = {
         appendPadding: 10,
         data : answers,
         angleField: 'count',
@@ -45,13 +46,26 @@ const PollResults = () => {
         ],
     };
 
+    const barConfig = {
+        data: answers,
+        xField: 'count',
+        yField: 'answer',
+        seriesField: 'answer',
+        legend: {
+            position: 'top-left',
+        },
+    };
+
     const handlePage = () => {
         history.push(`/viewpoll/${id}`)
     }
 
     return (
-        <div className=''>
-            {answers && answers.length > 0 && <div><Pie {...config} /></div>}
+    <div>
+            <div className="chart-container">
+                {answers && answers.length > 0 && <div className="chart-item"><Bar {...barConfig} /></div>}
+                {answers && answers.length > 0 && <div className="chart-item"><Pie {...pieConfig} /></div>}
+            </div>
             <Button onClick={handlePage}>View Poll</Button>
     </div>
     );

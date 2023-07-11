@@ -1,21 +1,24 @@
-import React, { useState } from 'react';
-import { Typography, Input, DatePicker, TimePicker, Button } from 'antd';
+import React, { useContext, useState } from 'react';
+import { Typography, Input, DatePicker, TimePicker, Button, Collapse, Checkbox, Switch } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-// import '../css/CreatePoll.css';
 import '../css/Master.css'
 import moment from 'moment';
+import UserContext from '../store/UserContext';
 
 const CreatePoll = () => {
 
+    const { uuid } = useContext(UserContext);
+    const { Panel } = Collapse;
     const { Title } = Typography;
-    const [options, setOptions] = useState(['']);
+    const [options, setOptions] = useState(['', '']);
     const [Ques, setQues] = useState('')
-    const [startDate, setStartDate] = useState();
-    const [startTime, setStartTime] = useState();
+    const [startDate, setStartDate] = useState('');
+    const [startTime, setStartTime] = useState('');
     const [endDate, setEndDate] = useState('')
     const [endTime, setEndTime] = useState('')
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
+    const [reqName, setReqName] = useState(false);
 
     const handleCreatePoll = () => {
 
@@ -31,16 +34,22 @@ const CreatePoll = () => {
         return;}
 
         if (options.length < 2) {
-            setErrorMessage('Please fill at least two options.');
+            setErrorMessage('Please fill atleast two options.');
         return;}
+
+        if (options.length > 6) {
+            setErrorMessage('There cannot be more than 6 options');
+            return;}
 
         const pollData = {
             question: Ques,
-            startDate: startDate,
-            startTime: startTime,
-            endDate: endDate,
-            endTime: endTime,
+            startDate,
+            startTime,
+            endDate,
+            endTime,
             options: options.filter((option) => option !== ''),
+            uuid,
+            reqName
         };
         console.log(pollData);
         saveDataToDatabase(pollData);
@@ -58,8 +67,8 @@ const CreatePoll = () => {
           .then((data) => {
             console.log(data)
             setQues('');
-            setEndDate(null);
-            setEndTime(null);
+            setEndDate('');
+            setEndTime('');
             setOptions(['']);
             setErrorMessage('');
             setSuccessMessage('Poll Created Successfully!!');
@@ -72,14 +81,6 @@ const CreatePoll = () => {
         updatedOptions[index] = value;
         setOptions(updatedOptions);
     };
-
-    const handleAddOption = () => {
-        setOptions([...options, '']);
-    };
-
-    const handleRemoveOption = () => {
-        setOptions([...options].slice(0, -1));
-    };
     
     return (
         <div className='component p-5 col-5 mx-auto shadow' >
@@ -90,21 +91,10 @@ const CreatePoll = () => {
             <Input placeholder="Enter poll title" style={{ width: '500px' }}
             value={Ques} onChange={(e) => { setQues(e.target.value) }} className='inputBg col'/><br /><br />
 
-            <label>Start Time:</label>
-            <br />
-            <DatePicker defaultValue={moment()} onChange={(date, dateString) => setStartDate(dateString)} style={{ marginRight: '30px' }} className='inputBg sameWidth'/>
-            <TimePicker defaultValue={moment()} format="h:mm A" onChange={(time, timeString) => setStartTime(timeString)} className='inputBg sameWidth'/>
-            <br /><br />
-            <label>End Time:</label>
-            <br />
-            <DatePicker onChange={(date, dateString) => setEndDate(dateString)} style={{ marginRight: '30px' }} className='inputBg sameWidth'/>
-            <TimePicker format="h:mm A" onChange={(time, timeString) => setEndTime(timeString)} className='inputBg sameWidth'/>
-            <br /><br />
-
             <label>Options:</label><br />
             {options.map((option, index) => (
                 <React.Fragment key={index}>
-                    {index+1 + '.  '}
+                    {/* {index+1 + '.  '} */}
                     <Input
                         value={option}
                         onChange={(e) => handleOptionChange(index, e.target.value)}
@@ -115,15 +105,49 @@ const CreatePoll = () => {
                 </React.Fragment>
             ))}
 
-            {/* <Button type="primary" style={{ marginRight: '30px', width: '90px' }} onClick={handleRemoveOption} className='buttonBg'>Remove</Button>
-            <Button type="primary" onClick={handleAddOption} style={{ width: '90px' }}className='buttonBg'>Add</Button><br /><br /> */}
-            <Button type="primary" style={{ marginRight: '10px' }} onClick={handleRemoveOption} className='iconBg' shape="circle" icon={<MinusOutlined />}></Button>
-            <Button type="primary" onClick={handleAddOption} className='iconBg' shape="circle" icon={<PlusOutlined />}></Button><br /><br />
+            <Button type="primary" style={{ marginRight: '10px' }} onClick={()=>setOptions([...options].slice(0, -1))} 
+            className='iconBg' shape="circle" icon={<MinusOutlined />}></Button>
+
+            <Button type="primary" onClick={()=>setOptions([...options, ''])} className='iconBg' 
+            shape="circle" icon={<PlusOutlined />}></Button><br /><br />
+
+            <Collapse defaultActiveKey={['']}>
+                <Panel header='Show Advanced Settings' key='1' style={{ color: 'navy' }}>
+                    <label>Start Time:</label><br/>
+                    <DatePicker
+                        defaultValue={moment()}
+                        onChange={(date, dateString) => setStartDate(dateString)}
+                        className='timebox'
+                    />
+                    <TimePicker
+                        defaultValue={moment()}
+                        format='h:mm A'
+                        onChange={(time, timeString) => setStartTime(timeString)}
+                        className='timebox'
+                    /><br />
+
+                    <label>End Time:</label><br />
+                    <DatePicker
+                        onChange={(date, dateString) => setEndDate(dateString)}
+                        className='timebox'
+                    />
+                    <TimePicker
+                        format='h:mm A'
+                        onChange={(time, timeString) => setEndTime(timeString)}
+                        className='timebox'
+                    /><br /><br />
+                    <div>
+                        <label htmlFor="toggleSwitch" style={{ marginRight: '10px' }}>Require participants' names:</label>
+                        <Switch id="toggleSwitch" value={reqName} onChange={()=>{setReqName(true)}} />
+                    </div>
+
+                </Panel>
+            </Collapse><br /><br />
+
             <Button type="primary" onClick={handleCreatePoll} className='buttonBg col sameWidth' style={{backgroundColor: 'navy'}}>Submit</Button>
 
             {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
             {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-
 
         </div>
     );

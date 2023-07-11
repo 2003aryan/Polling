@@ -40,6 +40,11 @@ const ViewPoll = () => {
 
     return (
         <div className='component py-4 px-5 col-5 mx-auto shadow'>
+
+            {poll.reqName && (<div><Title level={5} className='mt-3'>Name:</Title>
+                <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} onChange={(e) => { setName(e.target.value) }} className='option col' />
+            <br /><br /></div>)}
+
             <Title level={4} className='mb-4'>{poll.question}</Title>
             <Radio.Group onChange={(e) => { setAns(e.target.value) }} value={ans} style={{ width: "100%" }}>
                 <Space direction="vertical" style={{ width: "100%" }}>
@@ -52,12 +57,12 @@ const ViewPoll = () => {
                 </Space>
             </Radio.Group>
 
-            {/* <label className='mt-5 font-weight-bold'>Name:</label><br /> */}
-            <Title level={5} className='mt-5'>Name:</Title>
-            <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} onChange={(e) => { setName(e.target.value) }} className='option col' />
 
-            <Title level={5} className='mt-3'>Email:</Title>
-            <Input placeholder="Enter your name" style={{ width: '500px' }} value={email} onChange={(e) => { setEmail(e.target.value) }} className='option col' /><br /><br /><br />
+
+            {/* <Title level={5} className='mt-3'>Email:</Title>
+            <Input placeholder="Enter your name" style={{ width: '500px' }} value={email} onChange={(e) => { setEmail(e.target.value) }} className='option col' /> */}
+            
+            <br /><br />
             <Button type="primary" className='blueBg' onClick={handleAns} style={{width: '130px'}}>Submit</Button><br /><br />
         </div>
     );

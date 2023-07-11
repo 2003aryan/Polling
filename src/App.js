@@ -8,6 +8,7 @@ import Login from './components/Login';
 import PollResults from './components/PollResults';
 import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/navbar.js';
+import HomePage from './components/HomePage.js';
 
 function App() {
 	return (
@@ -15,7 +16,8 @@ function App() {
 			<div>
 				<Navbar />
 				<Switch>
-					<Route exact path="/" component={Login} />
+					<Route exact path="/" component={HomePage} />
+					<Route exact path="/login" component={Login} />
 					<PrivateRoute exact path="/createPoll" component={CreatePoll} />
 					<PrivateRoute exact path="/pollslist" component={PollsList} />
 					<Route exact path="/viewpoll/:id" component={ViewPoll} />

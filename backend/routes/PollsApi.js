@@ -32,18 +32,18 @@ router.get('/viewpoll/:id', async (req, res) => {
 });
 
 router.post('/savedata', async (req, res) => {
-    const { question, startDate, startTime, endDate, endTime, options } = req.body;
+    // const { question, startDate, startTime, endDate, endTime, options } = req.body;
 
-    const pollData = {
-        question,
-        startDate,
-        startTime,
-        endDate,
-        endTime,
-        options
-    };
+    // const pollData = {
+    //     question,
+    //     startDate,
+    //     startTime,
+    //     endDate,
+    //     endTime,
+    //     options
+    // };
 
-    const result = await collection.insertOne(pollData);
+    const result = await collection.insertOne(req.body);
     console.log(result);
     res.json({ message: 'Data saved successfully' });
 });
@@ -58,20 +58,53 @@ router.post('/viewpoll/:id/saveans', async (req, res) => {
 
 router.get('/viewpoll/:id/pollresults', async (req, res) => {
     const pollId = req.params.id;
+    console.log(pollId)
+    let data;
     // const query = { _id: new ObjectId(pollId) };
-    const poll = await answers.aggregate([
-        { $match: { questionid: pollId } }, // Match documents within a date range
-        { $group: { ans: "$ans", questionid: "$questionid", resCount: { $sum: 1 } } }, // Group by product and calculate total sales
-    ]).toArray(function (err, results) {
-        if (err) {
-            console.log('Error retrieving data from MongoDB:', err);
-            return;
-        }
-        console.log('Response count:', results);
-    });
+    const poll = await answers//.find({questionid: pollId })
+        .aggregate([
+            {
+                $match: {
+                    questionid: pollId
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        questionid: '$questionid',
+                        ans: '$ans'
+                    },
+                    count: { $sum: 1 }
+                }
+            },
+            {
+                $project: {
+                    _id: 0,
+                    answer: '$_id.ans',
+                    count: 1
+                }
+            }
+        ])
+        .toArray().then(result => data = result)
 
-    console.log(poll);
-    res.json(poll);
+    console.log(data);
+    res.json(data);
+});
+
+router.delete('/deletepoll/:id', async (req, res) => {
+    const pollId = req.params.id;
+    const query = { _id: new ObjectId(pollId) };
+
+    try {
+        const result = await collection.deleteOne(query);
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Poll not found' });
+        }
+        res.json({ message: 'Poll deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting poll:', error);
+        res.status(500).json({ message: 'Failed to delete poll' });
+    }
 });
 
 module.exports = router;

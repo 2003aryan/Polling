@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Table, Typography, Tag, Dropdown, Menu, Modal } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
 
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import UserContext from '../store/UserContext';
 
 const { Title } = Typography;
 
@@ -12,8 +13,10 @@ const PollsList = () => {
   const [selectedPoll, setSelectedPoll] = useState(null);
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
+  const userCtx = useContext(UserContext);
+
   useEffect(() => {
-    fetch('http://localhost:5001/api/polls/pollslist')
+    fetch(`http://localhost:5001/api/polls/pollslist/${userCtx.uuid}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -47,7 +50,7 @@ const PollsList = () => {
         Delete
       </Menu.Item>
       <Menu.Item key="3">
-        <Link to={`/sharepoll/${record._id}`}>Share</Link>
+        <Link to={`/editpoll/${record._id}`}>Edit</Link>
       </Menu.Item>
     </Menu>
   );
@@ -100,13 +103,8 @@ const PollsList = () => {
         rowKey="_id"
         className="mx-5"
         bordered
-        style={{ borderWidth: '2px', borderColor: 'black' }}
-        rowClassName={(record, index) => {
-          if (true) {
-            return 'highlight-bottom-border';
-          }
-        }}
-      >
+        style={{ borderWidth: '2px', borderColor: 'black' }}>
+
         <Table.Column
           title="Question"
           dataIndex="question"

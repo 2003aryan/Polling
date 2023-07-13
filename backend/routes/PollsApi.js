@@ -19,8 +19,8 @@ initializeCollection().catch(err => {
 
 router.use(bodyParser.json());
 
-router.get('/pollslist', async (req, res) => {
-    const result = await collection.find({}).toArray();
+router.get('/pollslist/:uuid', async (req, res) => {
+    const result = await collection.find({ userId: req.params.uuid}).toArray();
     res.json(result);
 });
 
@@ -105,6 +105,24 @@ router.delete('/deletepoll/:id', async (req, res) => {
         console.error('Error deleting poll:', error);
         res.status(500).json({ message: 'Failed to delete poll' });
     }
+});
+
+router.put('/editpoll/:id', async (req, res) => {
+    const pollId = req.params.id;
+    const query = { _id: new ObjectId(pollId) };
+    const updatedPollData = req.body;
+
+    collection.updateOne(query, { $set: updatedPollData })
+        .then(result => {
+            if (result.modifiedCount === 0) {
+                return res.status(500).json({ message: 'Failed to update poll' });
+            }
+            res.json({ message: 'Poll updated successfully' });
+        })
+        .catch(error => {
+            console.error('Error updating poll:', error);
+            res.status(500).json({ message: 'Failed to update poll' });
+        });
 });
 
 module.exports = router;

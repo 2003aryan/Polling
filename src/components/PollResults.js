@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { Bar, Pie } from '@ant-design/plots';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button } from 'antd';
-import '../css/Master.css';
+import { Button, Table } from 'antd';
+// import '../css/Master.css';
+// import '../css/PollResults.css';
+import Link from 'antd/es/typography/Link';
 
 const PollResults = () => {
 
@@ -56,21 +58,46 @@ const PollResults = () => {
         },
     };
 
-    const handlePage = () => {
+    const handle = () => {
         history.push(`/viewpoll/${id}`)
     }
 
     return (
-    <div>
-            <div className="chart-container">
-                {answers && answers.length > 0 && <div className="chart-item"><Bar {...barConfig} /></div>}
-                {answers && answers.length > 0 && <div className="chart-item"><Pie {...pieConfig} /></div>}
+    <div className='container mb-5'>
+
+        <div className='row'>
+            <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{backgroundColor: 'white'}}><Bar {...barConfig} /></div>}</div>
+            <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{ backgroundColor: 'white' }}><Pie {...pieConfig} /></div>}</div>
+        </div>
+
+        <div className="row">
+            <div className="col-sm-12 text-center">
+                <Table
+                    dataSource={answers}
+                    pagination={false}
+                    className="mx-5 mt-5"
+                    bordered>
+                    <Table.Column
+                        title="Options"
+                        dataIndex="answer"
+                        key="answer"/>
+                    <Table.Column
+                        title="Count"
+                        dataIndex="count"
+                        key="count"/>
+                </Table><br />
+                    <Button onClick={() => {
+                        history.push(`/viewpoll/${id}`)
+                    }}>View Poll</Button>
+                    
+                    <Button onClick={() => {
+                        history.push(`/editpoll/${id}`)
+                    }}>Edit Poll</Button>
+
             </div>
-            <Button onClick={handlePage}>View Poll</Button>
+        </div>
     </div>
     );
 };
 
 export default PollResults;
-
-// ReactDOM.render(<DemoPie />, document.getElementById('container'));

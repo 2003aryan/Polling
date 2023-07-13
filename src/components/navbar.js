@@ -12,8 +12,8 @@ const Navbar = () => {
         globalLogoutHandler();
     };
 
-    return (<div style={{ marginBottom: '90px' }}>
-        <nav className="nav-kc navbar navbar-expand-lg fixed-top px-5">
+    return (<div style={{ marginBottom: '50px' }}>
+        <nav className="nav-kc navbar navbar-expand-lg px-5">
             <Link className="navbar-brand" to="/" style={{ fontStyle: 'italic' }}>
                 <FontAwesomeIcon icon={faPoll} style={{ marginRight: '5px' }} />
                 LivePoll

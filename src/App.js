@@ -9,6 +9,7 @@ import PollResults from './components/PollResults';
 import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/navbar.js';
 import HomePage from './components/HomePage.js';
+import EditPoll from './components/EditPoll';
 
 function App() {
 	return (
@@ -24,6 +25,7 @@ function App() {
 					<Route exact path="/register" component={Register} />
 					<Route exact path="/login" component={Login} />
 					<PrivateRoute exact path="/viewpoll/:id/pollresults" component={PollResults}/>
+					<PrivateRoute exact path="/editpoll/:id" component={EditPoll}/>
 				</Switch>
 			</div>
 		</BrowserRouter>

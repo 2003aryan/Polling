@@ -20,8 +20,14 @@ initializeCollection().catch(err => {
 router.use(bodyParser.json());
 
 router.get('/pollslist/:uuid', async (req, res) => {
-    const result = await collection.find({ userId: req.params.uuid}).toArray();
-    res.json(result);
+    try {
+        const { uuid } = req.params;
+        const polls = await collection.find({ uuid }).toArray();
+        res.json(polls);
+    } catch (error) {
+        console.error('Error fetching polls:', error);
+        res.status(500).json({ message: 'Failed to fetch polls' });
+    }
 });
 
 router.get('/viewpoll/:id', async (req, res) => {

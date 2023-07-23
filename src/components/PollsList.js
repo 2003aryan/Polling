@@ -27,16 +27,17 @@ const PollsList = () => {
       });
   }, []);
 
-  const getStatus = (endDate) => {
+  const getStatus = (endDate, endTime) => {
     const now = new Date();
-    const end = new Date(endDate);
+    const end = new Date(`${endDate}T${endTime}`);
 
-    if (end < now) {
+    if (endDate && endTime && end < now) {
       return { status: 'Closed', color: 'red' };
     }
 
     return { status: 'Live', color: 'green' };
   };
+
 
   const renderMenu = (record) => (
     <Menu>
@@ -63,8 +64,8 @@ const PollsList = () => {
       .then((res) => res.json())
       .then((data) => {
         // Update the data by removing the deleted poll from the state
-        const updatedData = data.filter((poll) => poll._id !== selectedPoll._id);
-        setData(updatedData);
+        // const updatedData = data.filter((poll) => poll._id !== selectedPoll._id);
+        // setData(updatedData);
       })
       .catch((error) => {
         console.error('Error deleting poll:', error);
@@ -77,7 +78,7 @@ const PollsList = () => {
   // Reload data after deleting a poll
   useEffect(() => {
     if (deleteModalVisible === false) {
-      fetch('http://localhost:5001/api/polls/pollslist')
+      fetch(`http://localhost:5001/api/polls/pollslist/${userCtx.uuid}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);

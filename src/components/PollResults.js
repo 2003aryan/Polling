@@ -58,10 +58,6 @@ const PollResults = () => {
         },
     };
 
-    const handle = () => {
-        history.push(`/viewpoll/${id}`)
-    }
-
     return (
     <div className='container mb-5'>
 

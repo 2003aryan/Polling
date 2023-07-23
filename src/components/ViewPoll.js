@@ -30,15 +30,26 @@ const ViewPoll = () => {
                 setPoll(data);
 
                 // Check if the end date and time have passed
-                const endDate = new Date(data.endDate);
-                const endTime = new Date(data.endTime);
-                const currentDate = new Date();
+                // const endDate = new Date(data.endDate);
+                // const endTime = new Date(data.endTime);
+                // const currentDate = new Date();
 
-                if (currentDate >= endDate || currentDate >= endTime) {
+                // if (currentDate >= endDate || currentDate >= endTime) {
+                //     setIsEndDatePassed(true);
+                // } else {
+                //     setIsEndDatePassed(false);
+                // }
+
+                // ALT
+                const endDateTime = data.endDate && data.endTime ? new Date(`${data.endDate}T${data.endTime}`) : null;
+                const now = new Date();
+
+                if (data.endDate && data.endTime && now > endDateTime) {
                     setIsEndDatePassed(true);
                 } else {
                     setIsEndDatePassed(false);
                 }
+
 
             })
             .catch((error) => {
@@ -67,12 +78,16 @@ const ViewPoll = () => {
 
             {isEndDatePassed && <Alert message="The poll has ended. Voting is no longer allowed." type="warning" showIcon className='mb-3'/>}
 
-            {poll.reqName && (<div><Title level={5}>Name:</Title>
+            {poll.reqName && (
+            
+            <div><Title level={5}>Name:</Title>
                 <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} onChange={(e) => { setName(e.target.value) }} className='col' />
-                <Title level={5} className='mt-3'>Email:</Title>
+                <Title level={5} className='mt-3' >Email:</Title>
                 <Input placeholder="Enter your name" style={{ width: '500px' }} value={email} onChange={(e) => { setEmail(e.target.value) }} className='col' />
-                <br /><br />    <Divider />
-            </div>)}
+                <br />    <Divider />
+            </div>
+            
+            )}
 
             <Title level={4} className='mb-4'>{poll.question}</Title>
             <Radio.Group onChange={(e) => { setAns(e.target.value) }} value={ans} style={{ width: "100%" }}>

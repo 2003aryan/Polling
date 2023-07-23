@@ -30,7 +30,7 @@ router.post('/register', async (req, res) => {
 });
 
 router.post('/login', async (req, res) => {
-    const { email, password, uuid } = req.body;
+    const { email, password } = req.body;
 
     const user = await userCollection.findOne({ email });
 

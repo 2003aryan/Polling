@@ -21,10 +21,10 @@ const CreatePoll = () => {
     const [reqName, setReqName] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
 
-    const success = () => {
+    const success = (a) => {
         messageApi.open({
             type: 'success',
-            content: 'This is a success message',
+            content: a,
         });
     };
 
@@ -59,7 +59,7 @@ const CreatePoll = () => {
             endDate: endDate ? endDate.format('YYYY-MM-DD') : null,
             endTime: endTime ? endTime.format('HH:mm A') : null,
             options: options.filter((option) => option !== ''),
-            userId: uuid,
+            uuid,
             reqName,
         };
 
@@ -82,7 +82,7 @@ const CreatePoll = () => {
                 setOptions(['']);
                 setErrorMessage('');
                 // setSuccessMessage('Poll Created Successfully!!');
-                success()
+                success('Poll Created Successfully')
             })
             .catch((error) => console.error('Error saving data:', error));
     };

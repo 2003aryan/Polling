@@ -23,7 +23,7 @@ const EditPoll = () => {
 
     useEffect(() => {
         // Fetch poll data based on the ID and populate the form fields
-        fetch(`http://localhost:5001/api/polls/viewpoll/${id}`)
+        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}`)
             .then((res) => res.json())
             .then((data) => {
                 setQues(data.question);
@@ -72,7 +72,7 @@ const EditPoll = () => {
         };
 
         // Send the updated poll data to the server
-        fetch(`http://localhost:5001/api/polls/editpoll/${id}`, {
+        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/editpoll/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(pollData),

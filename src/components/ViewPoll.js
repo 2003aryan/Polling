@@ -23,7 +23,7 @@ const ViewPoll = () => {
     };
 
     useEffect(() => {
-        fetch(`http://localhost:5001/api/polls/viewpoll/${id}`)
+        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}`)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);
@@ -66,7 +66,7 @@ const ViewPoll = () => {
     };
 
     const saveAns = (ans) => {
-        fetch(`http://localhost:5001/api/polls/viewpoll/${id}/saveans`, {
+        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}/saveans`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(ans),

@@ -16,7 +16,7 @@ const PollsList = () => {
   const userCtx = useContext(UserContext);
 
   useEffect(() => {
-    fetch(`http://localhost:5001/api/polls/pollslist/${userCtx.uuid}`)
+    fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/pollslist/${userCtx.uuid}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -58,7 +58,7 @@ const PollsList = () => {
 
   const deletePoll = () => {
     // Make a DELETE request to the server to delete the poll
-    fetch(`http://localhost:5001/api/polls/deletepoll/${selectedPoll._id}`, {
+    fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/deletepoll/${selectedPoll._id}`, {
       method: 'DELETE'
     })
       .then((res) => res.json())
@@ -78,7 +78,7 @@ const PollsList = () => {
   // Reload data after deleting a poll
   useEffect(() => {
     if (deleteModalVisible === false) {
-      fetch(`http://localhost:5001/api/polls/pollslist/${userCtx.uuid}`)
+      fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/pollslist/${userCtx.uuid}`)
         .then((res) => res.json())
         .then((data) => {
           console.log(data);

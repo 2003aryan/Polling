@@ -17,7 +17,7 @@ const Login = () => {
   const handleLogin = () => {
     const loginData = { email, password };
 
-    fetch('http://localhost:5001/api/user/login', {
+    fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/user/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -68,7 +68,7 @@ const CreatePoll = () => {
     };
 
     const saveDataToDatabase = (pollData) => {
-        fetch('http://localhost:5001/api/polls/savedata', {
+        fetch( `${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/savedata`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(pollData),

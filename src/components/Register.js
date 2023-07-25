@@ -39,7 +39,7 @@ const Register = () => {
     };
 
     const registerToDatabase = (registerdata) => {
-        fetch('http://localhost:5001/api/user/register', {
+        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/user/register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(registerdata),

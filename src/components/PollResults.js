@@ -11,7 +11,7 @@ const PollResults = () => {
     let { id } = useParams();
 
     useEffect(() => {
-        fetch(`http://localhost:5001/api/polls/viewpoll/${id}/pollresults`)
+        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}/pollresults`)
             .then((res) => res.json())
             .then((data) => {
                 console.log(data);

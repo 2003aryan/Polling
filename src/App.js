@@ -10,6 +10,7 @@ import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/navbar.js';
 import HomePage from './components/HomePage.js';
 import EditPoll from './components/EditPoll';
+import 'antd/dist/antd.css';
 
 function App() {
 	return (

@@ -1,5 +1,6 @@
 const connectToMongoDB = require('./mongoDb.js');
 const express = require('express');
+const path = require('path');
 const app = express();
 const pollsRouter = require('./routes/PollsApi.js');
 const userRouter = require('./routes/UserApi');
@@ -7,6 +8,14 @@ const cors = require('cors');
 
 app.use(cors())
 app.use(express.json());
+app.use(express.static(path.join(__dirname, './../build')));
+
+// Other routes and API endpoints go here
+
+// For any other request, send the React frontend's index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, './../build', 'index.html'));
+});
 app.use('/api/polls', pollsRouter);
 app.use('/api/user', userRouter);
 

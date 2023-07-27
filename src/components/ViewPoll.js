@@ -87,7 +87,7 @@ const ViewPoll = () => {
     };
 
     return (
-        <div className='component py-4 px-5 col-5 mx-auto shadow'>{contextHolder}
+        <div className='component py-4 px-5 col-sm-5 mx-auto shadow'>{contextHolder}
 
             {isEndDatePassed && <Alert message="The poll has ended. Voting is no longer allowed." type="warning" showIcon className='mb-3'/>}
 

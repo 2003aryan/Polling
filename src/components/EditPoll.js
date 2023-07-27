@@ -99,7 +99,7 @@ const EditPoll = () => {
     };
 
     return (
-        <div className="component p-5 col-5 mx-auto shadow">
+        <div className="component p-5 col-sm-5 mx-auto shadow">
             <Title level={2} style={{ textAlign: 'center', color: 'navy' }}>
                 Edit Poll
             </Title>

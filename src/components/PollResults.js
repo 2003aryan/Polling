@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { Bar, Pie } from '@ant-design/plots';
+import { Bar, Pie } from '@ant-design/plots';
 import { useParams, useHistory } from 'react-router-dom';
 import { Button, Table } from 'antd';
 
@@ -58,8 +58,8 @@ const PollResults = () => {
     <div className='container mb-5'>
 
         <div className='row'>
-            {/* <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{backgroundColor: 'white'}}><Bar {...barConfig} /></div>}</div>
-            <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{ backgroundColor: 'white' }}><Pie {...pieConfig} /></div>}</div> */}
+            <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{backgroundColor: 'white'}}><Bar {...barConfig} /></div>}</div>
+            <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{ backgroundColor: 'white' }}><Pie {...pieConfig} /></div>}</div>
         </div>
 
         <div className="row">

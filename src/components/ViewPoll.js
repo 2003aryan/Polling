@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Radio, Space, Button, Input, Divider, message, Switch, Alert } from 'antd';
-import '../css/Master.css';
+import { Typography, Radio, Space, Button, Input, Divider, message, Alert, Modal } from 'antd';
+import '../css/custom.css';
 import { useParams } from 'react-router-dom';
+import Countdown from 'react-countdown'; 
+import QRCode from 'react-qr-code';
 
 const ViewPoll = () => {
 
@@ -15,10 +17,10 @@ const ViewPoll = () => {
     const [isEndDatePassed, setIsEndDatePassed] = useState(false);
 
     
-    const success = () => {
+    const success = (a) => {
         messageApi.open({
             type: 'success',
-            content: 'Vote Submitted!',
+            content: a,
         });
     };
 
@@ -29,18 +31,6 @@ const ViewPoll = () => {
                 console.log(data);
                 setPoll(data);
 
-                // Check if the end date and time have passed
-                // const endDate = new Date(data.endDate);
-                // const endTime = new Date(data.endTime);
-                // const currentDate = new Date();
-
-                // if (currentDate >= endDate || currentDate >= endTime) {
-                //     setIsEndDatePassed(true);
-                // } else {
-                //     setIsEndDatePassed(false);
-                // }
-
-                // ALT
                 const endDateTime = data.endDate && data.endTime ? new Date(`${data.endDate}T${data.endTime}`) : null;
                 const now = new Date();
 
@@ -62,7 +52,7 @@ const ViewPoll = () => {
         console.log('Submitting answer:', data);
         saveAns(data);
         setAns('');
-        success();
+        success("Vote Submitted!");
     };
 
     const saveAns = (ans) => {
@@ -73,6 +63,29 @@ const ViewPoll = () => {
         })
     };
 
+    const renderer = ({ days, hours, minutes, seconds, completed }) => {
+        if (completed) {
+            return <span>Time's up!</span>;
+        } else {
+            return (
+                <span>
+                Voting ends in {days} days, {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
+                </span>
+            );
+        }
+    };
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <div className='component py-4 px-5 col-5 mx-auto shadow'>{contextHolder}
 
@@ -80,12 +93,21 @@ const ViewPoll = () => {
 
             {poll.reqName && (
             
-            <div><Title level={5}>Name:</Title>
-                <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} onChange={(e) => { setName(e.target.value) }} className='col' />
-                <Title level={5} className='mt-3' >Email:</Title>
-                <Input placeholder="Enter your name" style={{ width: '500px' }} value={email} onChange={(e) => { setEmail(e.target.value) }} className='col' />
-                <br />    <Divider />
-            </div>
+                <div>
+                    <Title level={4} className='mb-4'>Your Details</Title>
+
+                    <div style={{ display: 'flex', alignItems: 'center' }}>
+                        <label style={{ marginRight: '10px', alignItems: 'center' }}>Name:</label>
+                        <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} onChange={(e) => setName(e.target.value)} className='col' />
+                    </div><br/>
+
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '40px'}}>
+                        <label style={{ marginRight: '10px', alignItems: 'center' }}>Email:</label>
+                        <Input placeholder="Enter your email" style={{ width: '500px' }} value={email} onChange={(e) => setEmail(e.target.value)} className='col' />
+                    </div>
+
+                    <Divider />
+                </div>
             
             )}
 
@@ -94,31 +116,27 @@ const ViewPoll = () => {
                 <Space direction="vertical" style={{ width: "100%" }}>
                     {poll.options && poll.options.map((option, index) => (
                         <div className='option' key={index}>
-                            <Radio value={option}>{option}</Radio>
+                            <Radio className='custom-radio' value={option}>{option}</Radio>
                         </div>
                     ))
                     }
                 </Space>
             </Radio.Group>
 
-            {/* <Title level={5} className='mt-3'>Email:</Title>
-            <Input placeholder="Enter your name" style={{ width: '500px' }} value={email} onChange={(e) => { setEmail(e.target.value) }} className='option col' /> */}
-
             <br /><br />
-            <Button type="primary" className='blueBg' onClick={handleAns} style={{ width: '130px' }} disabled={isEndDatePassed}>Submit</Button>
+            <Button type="primary" className='blueBg' onClick={handleAns} style={{ width: '130px' }} disabled={isEndDatePassed}>Submit</Button><br/>
+            <Countdown date={new Date(poll.endDate + "T01:02:03")} renderer={renderer} />
 
-            {/* {userUUID === poll.uuid && (
-                <div>
-                    <label htmlFor="toggleSwitch" style={{ marginRight: '10px' }}>Accepting responses</label>
+            <QRCode title="test" value={window.location.href}/>
 
-                    <Switch
-                        checked={isPollReopenEnabled}
-                        onChange={(checked) => setIsPollReopenEnabled(checked)}
-                        // checkedChildren="Reopen Poll"
-                        // unCheckedChildren="Close Poll"
-                    />
-                </div>
-            )} */}
+            <Button type="default" onClick={showModal}>
+                Open Modal
+            </Button>
+            <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+                <p>Some contents...</p>
+            </Modal>
 
         </div>
     );

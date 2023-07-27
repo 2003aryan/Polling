@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext } from 'react';
 import { Typography, Input, Button } from 'antd';
-import '../css/Master.css';
+import '../css/custom.css';
 import { Link } from 'react-router-dom';
 
 const Register = () => {
@@ -68,25 +68,25 @@ const Register = () => {
                 <Input placeholder="Enter your name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className='col' /><br /><br />
+                    className='col rounded' /><br /><br />
 
                 <label>Email:</label><br />
                 <Input placeholder="Enter your email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className='col' /><br /><br />
+                    className='col rounded' /><br /><br />
 
                 <label>Password:</label><br />
                 <Input.Password placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className='col' /><br /><br />
+                    className='col rounded' /><br /><br />
 
                 <label>Confirm Password:</label><br />
                 <Input.Password placeholder="Enter your confirm password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className='col' /><br /><br /><br />
+                    className='col rounded' /><br /><br /><br />
 
                 <Button type="primary" onClick={handleRegister} className='blueBg col'>Register</Button>
 

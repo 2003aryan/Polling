@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { Typography, Input, DatePicker, TimePicker, Button, Collapse, Switch, message, Alert } from 'antd';
+import '../css/custom.css';
+import { Typography, Input, DatePicker, TimePicker, Button, Collapse, Switch, message } from 'antd';
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
-import '../css/Master.css';
 import dayjs from 'dayjs';
 import UserContext from '../store/UserContext';
 
@@ -16,8 +16,6 @@ const CreatePoll = () => {
     const [endDate, setEndDate] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [errorMessage, setErrorMessage] = useState('');
-    const [successMessage, setSuccessMessage] = useState('');
-    // const [message, setMessage] = useState('');
     const [reqName, setReqName] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
 
@@ -94,7 +92,7 @@ const CreatePoll = () => {
     };
 
     return (
-        <div className="component p-5 col-5 mx-auto shadow">{contextHolder}
+        <div className="component p-5 col-sm-5 mx-auto shadow">{contextHolder}
             <Title level={2} style={{ textAlign: 'center', color: 'navy' }}>
                 Create New Poll
             </Title>
@@ -128,10 +126,9 @@ const CreatePoll = () => {
             ))}
 
             <Button
-                type="primary"
-                style={{ marginRight: '10px' }}
+                type=""
+                className='iconBg'
                 onClick={() => setOptions([...options].slice(0, -1))}
-                className="iconBg"
                 shape="circle"
                 icon={<MinusOutlined />}
             ></Button>
@@ -139,7 +136,7 @@ const CreatePoll = () => {
             <Button
                 type="primary"
                 onClick={() => setOptions([...options, ''])}
-                className="iconBg"
+                className='iconBg'
                 shape="circle"
                 icon={<PlusOutlined />}
             ></Button>
@@ -182,7 +179,7 @@ const CreatePoll = () => {
                         <label htmlFor="toggleSwitch" style={{ marginRight: '10px' }}>
                             Require participants' names:
                         </label>
-                        <Switch id="toggleSwitch" checked={reqName} onChange={setReqName} />
+                        <Switch id="toggleSwitch" checked={reqName} onChange={setReqName}/>
                     </div>
                 </Panel>
             </Collapse>
@@ -192,8 +189,7 @@ const CreatePoll = () => {
             <Button
                 type="primary"
                 onClick={handleCreatePoll}
-                className="buttonBg col sameWidth"
-                style={{ backgroundColor: 'navy' }}
+                className="blueBg col sameWidth"
             >
                 Submit
             </Button>

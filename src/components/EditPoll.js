@@ -3,7 +3,7 @@ import { Typography, Input, DatePicker, TimePicker, Button, Collapse, Switch } f
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import dayjs from 'dayjs';
 import { useParams, useHistory } from 'react-router-dom';
-import '../css/Master.css';
+import '../css/custom.css';
 
 const EditPoll = () => {
     const { id } = useParams();
@@ -197,8 +197,7 @@ const EditPoll = () => {
             <Button
                 type="primary"
                 onClick={handleUpdatePoll}
-                className="buttonBg col sameWidth"
-                style={{ backgroundColor: 'navy' }}
+                className="blueBg col sameWidth"
             >
                 Update
             </Button>

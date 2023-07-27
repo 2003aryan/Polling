@@ -32,7 +32,7 @@ function App() {
 					<Route exact path="/login" component={Login} />
 					<PrivateRoute exact path="/viewpoll/:id/pollresults" component={PollResults}/>
 					<PrivateRoute exact path="/editpoll/:id" component={EditPoll}/>
-					<Route exact path="/homepage" component={HomePage}/>
+					{/* <Route exact path="/homepage" component={HomePage}/> */}
 				</Switch>
 			</div>
 		</BrowserRouter>

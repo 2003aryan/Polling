@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from '@ant-design/plots';
 import { useParams, useHistory } from 'react-router-dom';
-import { Button, Table } from 'antd';
+import { Button, Col, Row, Table } from 'antd';
+import DownloadResult from './DownloadResult';
 
 const PollResults = () => {
 
     const [answers, setAnswers] = useState([]);
+    const [responses, setResponses] = useState([]);
     const history = useHistory();
 
     let { id } = useParams();
@@ -14,8 +16,15 @@ const PollResults = () => {
         fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}/pollresults`)
             .then((res) => res.json())
             .then((data) => {
-                console.log(data);
                 setAnswers(data);
+            })
+            .catch((error) => {
+                console.error('Error fetching data:', error);
+            });
+            fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}/pollresults`)
+            .then((res) => res.json())
+            .then((data) => {
+                setResponses(data);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -55,40 +64,61 @@ const PollResults = () => {
     };
 
     return (
-    <div className='container mb-5'>
-
-        <div className='row'>
-            <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{backgroundColor: 'white'}}><Bar {...barConfig} /></div>}</div>
-            <div className="col-sm-6">{answers && answers.length > 0 && <div className="chart-item" style={{ backgroundColor: 'white' }}><Pie {...pieConfig} /></div>}</div>
+      <div className="container mb-5">
+        <div className="row">
+          <div className="col-sm-6">
+            {answers && answers.length > 0 && (
+              <div className="chart-item" style={{ backgroundColor: "white" }}>
+                <Bar {...barConfig} />
+              </div>
+            )}
+          </div>
+          <div className="col-sm-6">
+            {answers && answers.length > 0 && (
+              <div className="chart-item" style={{ backgroundColor: "white" }}>
+                <Pie {...pieConfig} />
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="row">
-            <div className="col-sm-12 text-center">
-                <Table
-                    dataSource={answers}
-                    pagination={false}
-                    className="mx-5 mt-5"
-                    bordered>
-                    <Table.Column
-                        title="Options"
-                        dataIndex="answer"
-                        key="answer"/>
-                    <Table.Column
-                        title="Count"
-                        dataIndex="count"
-                        key="count"/>
-                </Table><br />
-                    <Button onClick={() => {
-                        history.push(`/viewpoll/${id}`)
-                    }}>View Poll</Button>
-                    
-                    <Button onClick={() => {
-                        history.push(`/editpoll/${id}`)
-                    }}>Edit Poll</Button>
-
-            </div>
+          <div className="col-sm-12 text-center">
+            <Table dataSource={answers} pagination={false} className="mx-5 mt-5" bordered>
+              <Table.Column title="Options" dataIndex="answer" key="answer" />
+              <Table.Column title="Count" dataIndex="count" key="count" />
+            </Table>
+            <br />
+            <Row
+            justify={'center'}
+            gutter={16}
+            >
+            <Col className="gutter-row" >
+            <Button
+            size='large'
+                onClick={() => {
+                  history.push(`/viewpoll/${id}`);
+                }}>
+                View Poll
+              </Button>
+            </Col>
+            <Col className="gutter-row" >
+            <Button size='large'
+                onClick={() => {
+                  history.push(`/editpoll/${id}`);
+                }}>
+                Edit Poll
+              </Button>
+            </Col>
+            <Col className="gutter-row">
+            <DownloadResult apiData={answers} responseData={responses} />
+            </Col>
+            
+            </Row>
+           
+          </div>
         </div>
-    </div>
+      </div>
     );
 };
 

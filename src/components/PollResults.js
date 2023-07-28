@@ -113,6 +113,20 @@ const PollResults = () => {
             <Col className="gutter-row">
             <DownloadResult resultData={answers} responseData={responses}/>
             </Col>
+            <Col className="gutter-row" >
+            <Button size='large'
+                onClick={() => {
+                    const parsedURL = new URL(window.location.href);
+                    const baseURL = `${parsedURL.protocol}//${parsedURL.host}`;
+                    const linkToShare =`${baseURL}/viewpoll/${id}`;
+                    const message = 'Check out this link: ' + linkToShare;
+                  
+                    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;
+                    window.location.href = url;
+                  }}>
+                Share @WhatsApp
+              </Button>
+            </Col>
             
             </Row>
            

@@ -111,7 +111,7 @@ const PollResults = () => {
               </Button>
             </Col>
             <Col className="gutter-row">
-            <DownloadResult apiData={answers} responseData={responses} />
+            <DownloadResult resultData={answers} responseData={responses}/>
             </Col>
             
             </Row>

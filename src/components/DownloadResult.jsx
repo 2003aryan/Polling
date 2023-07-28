@@ -1,7 +1,7 @@
 import React from 'react'
 import * as FileSaver from "file-saver";
 import * as XLSX from "xlsx";
-import {Dropdown} from 'antd';
+import {Dropdown, Tooltip} from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 
 
@@ -47,7 +47,9 @@ const DownloadResult = ({ resultData, responseData }) => {
     onClick: handleMenuClick,
   };
   return (
-    <Dropdown.Button size='large' onClick={(e) => exportToCSV(resultData, 'Results','xlsx',".xlsx")} menu={menuProps} ><DownloadOutlined /> Result (xlsx)</Dropdown.Button>
+    <Tooltip overlay={!resultData || resultData.length ===0 ? 'No response submitted' : null }>
+    <Dropdown.Button size='large' disabled={!resultData || resultData.length ===0} onClick={(e) => exportToCSV(resultData, 'Results','xlsx',".xlsx")} menu={menuProps} ><DownloadOutlined /> Result (xlsx)</Dropdown.Button>
+    </Tooltip>
   );
 };
 

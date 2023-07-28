@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Table, Typography, Tag, Dropdown, Menu, Modal } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
-
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import UserContext from '../store/UserContext';
-
+import dayjs from 'dayjs';
+dayjs.extend(customParseFormat)
 const { Title } = Typography;
 
 const PollsList = () => {
@@ -29,9 +30,8 @@ const PollsList = () => {
 
   const getStatus = (endDate, endTime) => {
     const now = new Date();
-    const end = new Date(`${endDate}T${endTime}`);
-
-    if (endDate && endTime && end < now) {
+    const finalDate = dayjs(endDate + " "+ endTime, "YYYY-MM-DD HH:mm A")
+    if (endDate && endTime && finalDate < now) {
       return { status: 'Closed', color: 'red' };
     }
 
@@ -136,8 +136,8 @@ const PollsList = () => {
           dataIndex="endDate"
           key="status"
           align="center"
-          render={(endDate) => {
-            const { status, color } = getStatus(endDate);
+          render={(endDate,record) => {
+            const { status, color } = getStatus(endDate, record.endTime);
             return (<Tag color={color} key={status}>{status}</Tag>);
           }}
         />

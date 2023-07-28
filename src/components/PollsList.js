@@ -38,7 +38,6 @@ const PollsList = () => {
     return { status: 'Live', color: 'green' };
   };
 
-
   const renderMenu = (record) => (
     <Menu>
       <Menu.Item key="1">

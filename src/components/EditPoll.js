@@ -46,10 +46,6 @@ const EditPoll = () => {
 
         const selectedStartDate = dayjs(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm A');
         const currentDate = dayjs();
-        if (selectedStartDate.isBefore(currentDate)) {
-            setErrorMessage('Start date cannot be in the past.');
-            return;
-        }
 
         if (options.length < 2) {
             setErrorMessage('Please fill at least two options.');

@@ -134,7 +134,7 @@ const CreatePoll = () => {
             ></Button>
 
             <Button
-                type="primary"
+                type=""
                 onClick={() => setOptions([...options, ''])}
                 className='iconBg'
                 shape="circle"

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Bar, Pie } from '@ant-design/plots';
 import { useParams, useHistory } from 'react-router-dom';
 import { Button, Col, Row, Table } from 'antd';
-import DownloadResult from './DownloadResult';
+import DownloadResult from './DownloadResult.jsx';
 
 const PollResults = () => {
 

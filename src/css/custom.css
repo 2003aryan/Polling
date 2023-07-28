@@ -77,22 +77,21 @@ Input {
     border-radius: 0.25rem !important;
 }
 
-.ant-switch-primary {
+/* .ant-switch-primary {
     background-color: red;
-}
+} */
 
 /* Add the hover styles to the existing classes */
-.custom-radio .ant-radio-checked .ant-radio-inner {
+/* .custom-radio .ant-radio-checked .ant-radio-inner {
     border-color: navy;
-}
+} */
 
-.custom-radio .ant-radio-inner::after {
+/* .custom-radio .ant-radio-inner::after {
     background-color: navy;
     border-color: navy;
-}
+} */
 
-/* Modify the existing hover styles to change the border color */
-.custom-radio:hover .ant-radio-inner {
+/* .custom-radio:hover .ant-radio-inner {
     border-color: navy;
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
-}
+} */

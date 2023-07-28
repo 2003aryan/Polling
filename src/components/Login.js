@@ -55,13 +55,15 @@ const Login = () => {
 
   <div className='row' > 
 
-    <div className='p-5 col-sm-6 mx-auto text-center'>
-      <Title level={1} style={{ color: 'navy', textAlign: 'left', margin: '0', padding: '0' }}>
-        LivePoll
-      </Title>
-      <Title level={2} style={{ textAlign: 'left', margin: '0', padding: '0' }}>
-        Making it easy to create instant, real-time polls for free.
-      </Title>
+      <div className='py-5 pr-5 col-sm-6 d-flex align-items-center mx-auto'>
+        <div className='mx-auto text-center'>
+          <Title level={1} style={{ color: 'navy', textAlign: 'left', margin: '0', padding: '0' }}>
+            LivePoll
+          </Title>
+          <Title level={2} style={{ textAlign: 'left', margin: '0', padding: '0' }}>
+            Making it easy to create instant, real time polls for free.
+          </Title>
+        </div>
       </div>
 
     <div className='component p-5 col-sm-5 mr-auto shadow '>

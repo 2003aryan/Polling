@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Typography, Radio, Space, Button, Input, Divider, message, Alert, Modal } from 'antd';
 import '../css/custom.css';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Countdown from 'react-countdown';
 import QRCode from 'react-qr-code';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCopy, faLink, faShare, faShareAlt } from '@fortawesome/free-solid-svg-icons';
+import { faLink, faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 
 const ViewPoll = () => {
 
     let { id } = useParams();
+    const history = useHistory();
     const { Title } = Typography;
     const [ans, setAns] = useState('');
     const [poll, setPoll] = useState({});
@@ -19,13 +20,6 @@ const ViewPoll = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [isEndDatePassed, setIsEndDatePassed] = useState(false);
     const [isRadioSelected, setIsRadioSelected] = useState(false);
-
-    const success = (a) => {
-        messageApi.open({
-            type: 'success',
-            content: a,
-        });
-    };
 
     useEffect(() => {
         fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' : ''}/api/polls/viewpoll/${id}`)
@@ -63,7 +57,8 @@ const ViewPoll = () => {
         console.log('Submitting answer:', data);
         saveAns(data);
         setAns('');
-        success("Vote Submitted!");
+        messageApi.success('Vote Submitted!');
+        history.push(`/success`);
     };
 
     const handleRadioClick = () => {
@@ -183,7 +178,7 @@ const ViewPoll = () => {
                 {copied && <p style={{ color: 'green', marginTop: '5px' }}>Successfully copied.</p>}
             </Modal>
 
-            <Countdown date={new Date(poll.endDate + "T" + pollEndTime)} renderer={renderer} />
+            {poll.endDate && <Countdown date={new Date(poll.endDate + "T" + pollEndTime)} renderer={renderer} />}
         </div>
     );
 };

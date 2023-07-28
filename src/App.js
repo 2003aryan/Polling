@@ -12,6 +12,7 @@ import HomePage from './components/HomePage.js';
 import EditPoll from './components/EditPoll';
 // import 'antd/dist/antd.css';
 import './css/custom.css';
+import Success from './components/success';
 
 // const location = useLocation();
 // const hideNavbarOnLogin = ['/login', '/'];
@@ -33,6 +34,7 @@ function App() {
 					<PrivateRoute exact path="/viewpoll/:id/pollresults" component={PollResults}/>
 					<PrivateRoute exact path="/editpoll/:id" component={EditPoll}/>
 					{/* <Route exact path="/homepage" component={HomePage}/> */}
+					<Route exact path="/success" component={Success}/>
 				</Switch>
 			</div>
 		</BrowserRouter>

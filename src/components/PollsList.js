@@ -46,7 +46,7 @@ const PollsList = () => {
       <Menu.Item key="2" onClick={() => {
         setSelectedPoll(record);
         setDeleteModalVisible(true);
-      }}>
+      }} style={{ color: 'navy', fontWeight: 'bold' }}>
         Delete
       </Menu.Item>
       <Menu.Item key="3">

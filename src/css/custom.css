@@ -1,7 +1,7 @@
 .component {
     border-radius: 30px;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
-    /* margin-bottom: 5%; */
+    margin-bottom: 5%;
     background-color: white;
 }
 
@@ -21,11 +21,9 @@
     border-radius: 0.75rem;
     padding: 0.5rem;
     border: 0.75px solid black;
-    /* background-color: #FBF8EE; */
 }
 
 .iconBg {
-    /* background-color: #5B74B3; */
     margin-right: 10px !important;
     background-color: whitesmoke !important;
     color: navy !important;
@@ -37,19 +35,11 @@ a {
     font-weight: bold !important;
 }
 
-/* .inputBg {
-    border: 1px solid black;
-} */
-
 .timebox {
     width: 130px !important;
     margin-right: 30px !important;
     margin-bottom: 20px !important;
 }
-
-/* .ant-selection {
-    background-color: green;
-} */
 
 .chart-container {
     display: flex;
@@ -62,10 +52,6 @@ a {
     padding: 10px;
 }
 
-/* .my-class .ant-btn {
-    background-color: red;
-} */
-
 .custom-btn {
     margin-right: 10px;
     background-color: whitesmoke;
@@ -76,22 +62,3 @@ a {
 Input {
     border-radius: 0.25rem !important;
 }
-
-/* .ant-switch-primary {
-    background-color: red;
-} */
-
-/* Add the hover styles to the existing classes */
-/* .custom-radio .ant-radio-checked .ant-radio-inner {
-    border-color: navy;
-} */
-
-/* .custom-radio .ant-radio-inner::after {
-    background-color: navy;
-    border-color: navy;
-} */
-
-/* .custom-radio:hover .ant-radio-inner {
-    border-color: navy;
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
-} */

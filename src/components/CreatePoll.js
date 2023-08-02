@@ -15,38 +15,35 @@ const CreatePoll = () => {
     const [startTime, setStartTime] = useState(dayjs());
     const [endDate, setEndDate] = useState(null);
     const [endTime, setEndTime] = useState(null);
-    const [errorMessage, setErrorMessage] = useState('');
     const [reqName, setReqName] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
-
-    const success = (a) => {
-        messageApi.open({
-            type: 'success',
-            content: a,
-        });
-    };
 
     const handleCreatePoll = () => {
         const trimmedQuestion = Ques.trim();
         if (trimmedQuestion === '') {
-            setErrorMessage('Please enter the poll question.');
+            messageApi.error('Please enter the poll question.');
+            return;
+        }
+
+        if (options.some((option) => option.trim() === '')) {
+            messageApi.error('Please fill all the options.');
             return;
         }
 
         const selectedStartDate = dayjs(startDate);
         const currentDate = dayjs();
         if (selectedStartDate.isBefore(currentDate, 'day')) {
-            setErrorMessage('Start date cannot be in the past.');
+            messageApi.error('Start date cannot be in the past.');
             return;
         }
 
         if (options.length < 2) {
-            setErrorMessage('Please fill at least two options.');
+            messageApi.error('Please fill at least two options.');
             return;
         }
 
         if (options.length > 6) {
-            setErrorMessage('There cannot be more than 6 options');
+            messageApi.error('There cannot be more than 6 options');
             return;
         }
 
@@ -77,10 +74,11 @@ const CreatePoll = () => {
                 setQues('');
                 setEndDate(null);
                 setEndTime(null);
-                setOptions(['']);
-                setErrorMessage('');
+                setOptions(['', '']);
+                setReqName(false);
+                // setErrorMessage('');
                 // setSuccessMessage('Poll Created Successfully!!');
-                success('Poll Created Successfully')
+                messageApi.success('Poll Created Successfully')
             })
             .catch((error) => console.error('Error saving data:', error));
     };
@@ -177,7 +175,7 @@ const CreatePoll = () => {
                     <br />
                     <div>
                         <label htmlFor="toggleSwitch" style={{ marginRight: '10px' }}>
-                            Require participants' names:
+                            Require participants' names and emails:
                         </label>
                         <Switch id="toggleSwitch" checked={reqName} onChange={setReqName}/>
                     </div>
@@ -194,7 +192,7 @@ const CreatePoll = () => {
                 Submit
             </Button>
 
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
             {/* {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} */}
 
             {/* <Alert message="hello" type="error" /> */}

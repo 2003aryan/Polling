@@ -57,7 +57,7 @@ const ViewPoll = () => {
         console.log('Submitting answer:', data);
         saveAns(data);
         setAns('');
-        messageApi.success('Vote Submitted!');
+        message.success('Vote Submitted!');
         history.push(`/success`);
     };
 
@@ -125,12 +125,12 @@ const ViewPoll = () => {
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <p style={{ marginRight: '10px', alignItems: 'center', marginTop: '10px' }}>Name:</p>
-                        <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} onChange={(e) => setName(e.target.value)} className='col' />
+                        <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} required={poll.reqName}  onChange={(e) => setName(e.target.value)} className='col' />
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                         <p style={{ marginRight: '14px', alignItems: 'center', marginTop: '15px' }}>Email:</p>
-                        <Input placeholder="Enter your email" style={{ width: '500px' }} value={email} onChange={(e) => setEmail(e.target.value)} className='col' />
+                        <Input placeholder="Enter your email" style={{ width: '500px' }} value={email} required={poll.reqName} onChange={(e) => setEmail(e.target.value)} className='col' />
                     </div>
 
                     <Divider />
@@ -175,7 +175,11 @@ const ViewPoll = () => {
                         </Button>
                     }
                 />
-                {copied && <p style={{ color: 'green', marginTop: '5px' }}>Successfully copied.</p>}
+                {copied && <p style={{ color: 'green', marginTop: '5px' }}>Successfully copied.</p>}<br /><br />
+                <Button onClick={() => {
+                    const message = 'Check out this link: ' + window.location.href;
+                    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;}}>Share on WhatsApp
+                    </Button>
             </Modal>
 
             {poll.endDate && <Countdown date={new Date(poll.endDate + "T" + pollEndTime)} renderer={renderer} />}

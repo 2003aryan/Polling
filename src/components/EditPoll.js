@@ -44,8 +44,10 @@ const EditPoll = () => {
             return;
         }
 
-        const selectedStartDate = dayjs(startDate + ' ' + startTime, 'YYYY-MM-DD HH:mm A');
-        const currentDate = dayjs();
+        if (options.some((option) => option.trim() === '')) {
+            setErrorMessage('Please fill all the options.');
+            return;
+        }
 
         if (options.length < 2) {
             setErrorMessage('Please fill at least two options.');
@@ -181,7 +183,7 @@ const EditPoll = () => {
                     <br />
                     <div>
                         <label htmlFor="toggleSwitch" style={{ marginRight: '10px' }}>
-                            Require participants' names:
+                            Require participants' names and emails:
                         </label>
                         <Switch id="toggleSwitch" checked={reqName} onChange={setReqName} />
                     </div>

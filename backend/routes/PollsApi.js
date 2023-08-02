@@ -38,37 +38,24 @@ router.get('/viewpoll/:id', async (req, res) => {
 });
 
 router.post('/savedata', async (req, res) => {
-    // const { question, startDate, startTime, endDate, endTime, options } = req.body;
-
-    // const pollData = {
-    //     question,
-    //     startDate,
-    //     startTime,
-    //     endDate,
-    //     endTime,
-    //     options
-    // };
-
     const result = await collection.insertOne(req.body);
     console.log(result);
     res.json({ message: 'Data saved successfully' });
 });
 
 router.post('/viewpoll/:id/saveans', async (req, res) => {
-    // const ans = req.body;
-    // const pollans = { ans }
     const result = await answers.insertOne(req.body);
     console.log(result);
     res.json({ message: 'Answer saved successfully' });
 });
 
 router.get('/viewpoll/:id/pollresults', async (req, res) => {
-    const pollId = req.params.id;
-    console.log(pollId)
-    let data;
-    // const query = { _id: new ObjectId(pollId) };
-    const poll = await answers//.find({questionid: pollId })
-        .aggregate([
+    try {
+        const pollId = req.params.id;
+        console.log(pollId);
+
+        // Query 1: Aggregation Query for Poll Results
+        const pollResults = await answers.aggregate([
             {
                 $match: {
                     questionid: pollId
@@ -76,25 +63,33 @@ router.get('/viewpoll/:id/pollresults', async (req, res) => {
             },
             {
                 $group: {
-                    _id: {
-                        questionid: '$questionid',
-                        ans: '$ans'
-                    },
+                    _id: '$ans',
                     count: { $sum: 1 }
                 }
             },
             {
                 $project: {
                     _id: 0,
-                    answer: '$_id.ans',
+                    answer: '$_id',
                     count: 1
                 }
             }
-        ])
-        .toArray().then(result => data = result)
+        ]).toArray();
 
-    console.log(data);
-    res.json(data);
+        console.log(pollResults);
+
+        // Query 2: Regular Find Query for Names and Answers
+        // const responses = await answers.find({ questionid: pollId }, { _id: 0, name: 1, ans: 1 }).toArray();
+        const projection = { _id: 0, name: 1, ans: 1, email: 1 }; // Specify the fields you want to retrieve
+        const filter = { questionid: pollId }; // Define the query filter
+        const responses = await answers.find(filter, { projection }).toArray()
+        console.log(responses);
+
+        res.json({ pollResults, responses });
+    } catch (error) {
+        console.error('Error retrieving poll results:', error);
+        res.status(500).json({ error: 'Failed to fetch poll results.' });
+    }
 });
 
 router.delete('/deletepoll/:id', async (req, res) => {

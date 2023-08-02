@@ -23,6 +23,11 @@ const Register = () => {
             return;
         }
 
+        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(trimmedEmail)) {
+            setErrorMessage('Please enter a valid email address.');
+            return;
+        }
+
         if (trimmedPassword !== trimmedConfirmPassword) {
             setErrorMessage('Passwords do not match.');
             return;
@@ -58,7 +63,7 @@ const Register = () => {
     };
 
     return (
-            <div className='component p-5 col-sm-4 mx-auto shadow'>
+            <div className='component p-5 mt-5 col-sm-4 mx-auto shadow'>
             <Title level={2} className='text-center mb-0' style={{ color: 'navy' }}>Create a free account</Title>
                 <div className='text-center '>
                     <Link to="/login" style={{ fontSize: '14px', color: 'navy' }}>Or log in to your account</Link>

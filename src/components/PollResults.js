@@ -13,18 +13,12 @@ const PollResults = () => {
     let { id } = useParams();
 
     useEffect(() => {
-        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}/pollresults`)
+        fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' : ''}/api/polls/viewpoll/${id}/pollresults`)
             .then((res) => res.json())
             .then((data) => {
-                setAnswers(data);
-            })
-            .catch((error) => {
-                console.error('Error fetching data:', error);
-            });
-            fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' :''}/api/polls/viewpoll/${id}/pollresults`)
-            .then((res) => res.json())
-            .then((data) => {
-                setResponses(data);
+                const { pollResults, responses } = data;
+                setAnswers(pollResults);
+                setResponses(responses);
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
@@ -33,7 +27,7 @@ const PollResults = () => {
 
     let pieConfig = {
         appendPadding: 10,
-        data : answers,
+        data: answers,
         angleField: 'count',
         colorField: 'answer',
         radius: 0.9,
@@ -64,75 +58,75 @@ const PollResults = () => {
     };
 
     return (
-      <div className="container mb-5">
-        <div className="row">
-          <div className="col-sm-6">
-            {answers && answers.length > 0 && (
-              <div className="chart-item" style={{ backgroundColor: "white" }}>
-                <Bar {...barConfig} />
-              </div>
-            )}
-          </div>
-          <div className="col-sm-6">
-            {answers && answers.length > 0 && (
-              <div className="chart-item" style={{ backgroundColor: "white" }}>
-                <Pie {...pieConfig} />
-              </div>
-            )}
-          </div>
-        </div>
+        <div className="container mb-5">
+            <div className="row">
+                <div className="col-sm-6">
+                    {answers && answers.length > 0 && (
+                        <div className="chart-item" style={{ backgroundColor: "white" }}>
+                            <Bar {...barConfig} />
+                        </div>
+                    )}
+                </div>
+                <div className="col-sm-6">
+                    {answers && answers.length > 0 && (
+                        <div className="chart-item" style={{ backgroundColor: "white" }}>
+                            <Pie {...pieConfig} />
+                        </div>
+                    )}
+                </div>
+            </div>
 
-        <div className="row">
-          <div className="col-sm-12 text-center">
-            <Table dataSource={answers} pagination={false} className="mx-5 mt-5" bordered>
-              <Table.Column title="Options" dataIndex="answer" key="answer" />
-              <Table.Column title="Count" dataIndex="count" key="count" />
-            </Table>
-            <br />
-            <Row
-            justify={'center'}
-            gutter={16}
-            >
-            <Col className="gutter-row" >
-            <Button
-            size='large'
-                onClick={() => {
-                  history.push(`/viewpoll/${id}`);
-                }}>
-                View Poll
-              </Button>
-            </Col>
-            <Col className="gutter-row" >
-            <Button size='large'
-                onClick={() => {
-                  history.push(`/editpoll/${id}`);
-                }}>
-                Edit Poll
-              </Button>
-            </Col>
-            <Col className="gutter-row">
-            <DownloadResult resultData={answers} responseData={responses}/>
-            </Col>
-            <Col className="gutter-row" >
-            <Button size='large'
-                onClick={() => {
-                    const parsedURL = new URL(window.location.href);
-                    const baseURL = `${parsedURL.protocol}//${parsedURL.host}`;
-                    const linkToShare =`${baseURL}/viewpoll/${id}`;
-                    const message = 'Check out this link: ' + linkToShare;
-                  
-                    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;
-                    window.location.href = url;
-                  }}>
-                Share @WhatsApp
-              </Button>
-            </Col>
-            
-            </Row>
-           
-          </div>
+            <div className="row">
+                <div className="col-sm-12 text-center">
+                    <Table dataSource={answers} pagination={false} className="mx-5 mt-5" bordered>
+                        <Table.Column title="Options" dataIndex="answer" key="answer" />
+                        <Table.Column title="Count" dataIndex="count" key="count" />
+                    </Table>
+                    <br />                        
+                    <Row
+                        justify={'center'}
+                        gutter={16}
+                    >
+                        <Col className="gutter-row" >
+                            <Button
+                                size='large'
+                                onClick={() => {
+                                    history.push(`/viewpoll/${id}`);
+                                }}>
+                                View Poll
+                            </Button>
+                        </Col>
+                        <Col className="gutter-row" >
+                            <Button size='large'
+                                onClick={() => {
+                                    history.push(`/editpoll/${id}`);
+                                }}>
+                                Edit Poll
+                            </Button>
+                        </Col>
+                        <Col className="gutter-row">
+                            <DownloadResult resultData={answers} responseData={responses} />
+                        </Col>
+                        <Col className="gutter-row" >
+                            <Button size='large'
+                                onClick={() => {
+                                    const parsedURL = new URL(window.location.href);
+                                    const baseURL = `${parsedURL.protocol}//${parsedURL.host}`;
+                                    const linkToShare = `${baseURL}/viewpoll/${id}`;
+                                    const message = 'Check out this link: ' + linkToShare;
+
+                                    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;
+                                    window.location.href = url;
+                                }}>
+                                Share @WhatsApp
+                            </Button>
+                        </Col>
+
+                    </Row>
+
+                </div>
+            </div>
         </div>
-      </div>
     );
 };
 

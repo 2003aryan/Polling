@@ -28,8 +28,8 @@ const Navbar = () => {
                     className="navbar-toggler"
                     type="button"
                     data-toggle="collapse"
-                    data-target="#navbarText" // Add the data-target attribute to point to the correct Navbar content
-                    onClick={toggleMenu} // Add the onClick event handler
+                    data-target="#navbarText" 
+                    onClick={toggleMenu} 
                     aria-controls="navbarText"
                     aria-expanded={showMenu}
                     aria-label="Toggle navigation"
@@ -39,10 +39,7 @@ const Navbar = () => {
                         style={{ color: 'navy' }}
                     />
                 </button>
-                <div
-                    className={`collapse navbar-collapse ${showMenu ? 'show' : ''}`}
-                    id="navbarText"
-                >
+                <div className={`collapse navbar-collapse ${showMenu ? 'show' : ''}`} id="navbarText">
                     <ul className="navbar-nav mr-auto">
                         <li className="nav-item active">
                             <Link className="nav-link" to="/">

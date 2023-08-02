@@ -26,7 +26,7 @@ const PollsList = () => {
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, []);
+  }, [userCtx.uuid]);
 
   const getStatus = (endDate, endTime) => {
     const now = new Date();

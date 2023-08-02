@@ -4,7 +4,7 @@ import UserContext from '../store/UserContext';
 
 function PrivateRoute({ component: Component, ...rest }) {
   const userCtx = useContext(UserContext);
-    const isAuthenticated = userCtx.uuid ? true : false;
+    const isAuthenticated = localStorage.getItem('userIdentifier') ? true : false;
     console.log(isAuthenticated);
   return (
     <Route

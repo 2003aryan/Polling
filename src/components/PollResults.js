@@ -108,7 +108,7 @@ const PollResults = () => {
                             <DownloadResult resultData={answers} responseData={responses} />
                         </Col>
                         <Col className="gutter-row" >
-                            <Button size='large'
+                            {/* <Button size='large'
                                 onClick={() => {
                                     const parsedURL = new URL(window.location.href);
                                     const baseURL = `${parsedURL.protocol}//${parsedURL.host}`;
@@ -119,7 +119,7 @@ const PollResults = () => {
                                     window.location.href = url;
                                 }}>
                                 Share @WhatsApp
-                            </Button>
+                            </Button> */}
                         </Col>
 
                     </Row>

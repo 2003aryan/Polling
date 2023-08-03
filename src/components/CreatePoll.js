@@ -76,8 +76,6 @@ const CreatePoll = () => {
                 setEndTime(null);
                 setOptions(['', '']);
                 setReqName(false);
-                // setErrorMessage('');
-                // setSuccessMessage('Poll Created Successfully!!');
                 messageApi.success('Poll Created Successfully')
             })
             .catch((error) => console.error('Error saving data:', error));
@@ -191,11 +189,6 @@ const CreatePoll = () => {
             >
                 Submit
             </Button>
-
-            {/* {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} */}
-            {/* {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>} */}
-
-            {/* <Alert message="hello" type="error" /> */}
         </div>
     );
 };

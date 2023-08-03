@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Typography, Input, Button } from 'antd';
 import '../css/custom.css';
 import { Link } from 'react-router-dom';
@@ -23,10 +23,10 @@ const Register = () => {
             return;
         }
 
-        if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(trimmedEmail)) {
-            setErrorMessage('Please enter a valid email address.');
-            return;
-        }
+        // if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(trimmedEmail)) {
+        //     setErrorMessage('Please enter a valid email address.');
+        //     return;
+        // }
 
         if (trimmedPassword !== trimmedConfirmPassword) {
             setErrorMessage('Passwords do not match.');

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import CreatePoll from './components/CreatePoll';
 import { Switch, Route, useLocation } from "react-router-dom";
 import PollsList from './components/PollsList';
@@ -10,7 +10,6 @@ import PrivateRoute from './components/PrivateRoute';
 import Navbar from './components/navbar.js';
 import EditPoll from './components/EditPoll';
 import Success from './components/success';
-import UserContext from './store/UserContext';
 
 function App() {
 	const location = useLocation();

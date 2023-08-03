@@ -7,6 +7,7 @@ import QRCode from 'react-qr-code';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
+import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 const ViewPoll = () => {
 
@@ -78,7 +79,7 @@ const ViewPoll = () => {
             return <span></span>;
         } else {
             return (
-                <span>
+                <span style={{ color: 'red' }}>
                     Voting ends in {days} days, {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:{seconds.toString().padStart(2, '0')}
                 </span>
             );
@@ -175,10 +176,15 @@ const ViewPoll = () => {
                         </Button>
                     }
                 />
-                {copied && <p style={{ color: 'green', marginTop: '5px' }}>Successfully copied.</p>}<br /><br />
-                <Button onClick={() => {
+                {copied && <p style={{ color: 'green' }}>Successfully copied.</p>}
+                Share Link: <Button className='mt-3' shape="circle" onClick={() => {
                     const message = 'Check out this link: ' + window.location.href;
-                    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;}}>Share on WhatsApp
+                    const url = `whatsapp://send?text=${encodeURIComponent(message)}`;
+                    window.location.href = url
+                }}><FontAwesomeIcon
+                        icon={faWhatsapp}
+                        style={{ color: 'green', fontSize: '20px' }}
+                    />
                     </Button>
             </Modal>
 

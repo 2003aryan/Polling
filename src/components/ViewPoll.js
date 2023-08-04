@@ -21,7 +21,7 @@ const ViewPoll = () => {
     const [messageApi, contextHolder] = message.useMessage();
     const [isEndDatePassed, setIsEndDatePassed] = useState(false);
     const [isRadioSelected, setIsRadioSelected] = useState(false);
-
+    const now = dayjs().format('YYYY-MM-DD HH:mm:ss'); 
     useEffect(() => {
         fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' : ''}/api/polls/viewpoll/${id}`)
             .then((res) => res.json())
@@ -30,7 +30,7 @@ const ViewPoll = () => {
                 setPoll(data);
 
                 const endDateTime = data.endDate && data.endTime ? dayjs(`${data.endDate} ${data.endTime}`, 'YYYY-MM-DD h:mm A').format('YYYY-MM-DD HH:mm:ss') : null;
-                const now = dayjs().format('YYYY-MM-DD HH:mm:ss'); 
+               
 
                 if (data.endDate && data.endTime && now > endDateTime) {
                     setIsEndDatePassed(true);
@@ -44,7 +44,8 @@ const ViewPoll = () => {
                 console.error('Error fetching data:', error);
             });
     }, []);
-
+    const startDateTime = poll.startDate && poll.startTime ? dayjs(`${poll.startDate} ${poll.startTime}`, 'YYYY-MM-DD h:mm A').format('YYYY-MM-DD HH:mm:ss') : null;
+    
     const handleAns = () => {
         if (!isRadioSelected) {
             messageApi.warning('Please select an option before submitting.');
@@ -53,6 +54,20 @@ const ViewPoll = () => {
         if (isEndDatePassed) {
             messageApi.warning('The poll has ended. Voting is no longer allowed.');
             return;
+        }
+        if (startDateTime >now) {
+            messageApi.info('The poll has not started. Voting is not permitted.');
+            return;
+        }
+        if(poll.reqName){
+            if(!name){
+                messageApi.warning('Please enter name');
+                return;
+            }
+            if(!email){
+                messageApi.warning('Please enter email');
+                return;
+            }
         }
         const data = { ans, questionid: id, name, email }
         console.log('Submitting answer:', data);
@@ -118,20 +133,21 @@ const ViewPoll = () => {
         <div className='component py-4 px-5 col-sm-5 mx-auto shadow'>{contextHolder}
 
             {isEndDatePassed && <Alert message="The poll has ended. Voting is no longer allowed." type="warning" showIcon className='mb-3' />}
-
+            { startDateTime > now && <Alert message="The poll has not started. Voting is not permitted." type="info" showIcon className='mb-3' />}
+           
             {poll.reqName && (
-
                 <div>
+                    {console.log(poll.reqName)}
                     <Title level={4} className='mb-4'>Your Details</Title>
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <p style={{ marginRight: '10px', alignItems: 'center', marginTop: '10px' }}>Name:</p>
-                        <Input placeholder="Enter your name" style={{ width: '500px' }} value={name} required={poll.reqName}  onChange={(e) => setName(e.target.value)} className='col' />
+                        <Input placeholder="Enter your name" style={{ width: '500px' }} value={name}   onChange={(e) => setName(e.target.value)} className='col' />
                     </div>
 
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
                         <p style={{ marginRight: '14px', alignItems: 'center', marginTop: '15px' }}>Email:</p>
-                        <Input placeholder="Enter your email" style={{ width: '500px' }} value={email} required={poll.reqName} onChange={(e) => setEmail(e.target.value)} className='col' />
+                        <Input placeholder="Enter your email" style={{ width: '500px' }} value={email} onChange={(e) => setEmail(e.target.value)} className='col' />
                     </div>
 
                     <Divider />

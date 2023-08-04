@@ -16,13 +16,13 @@ const DownloadResult = ({ resultData, responseData }) => {
     };
 
     const handleMenuClick = (e) => {
-        if (e.key === 1) {
+        if (e.key === '1') {
             exportToCSV(resultData, 'Results', 'csv', ".csv")
         }
-        if (e.key === 2) {
+        if (e.key === '2') {
             exportToCSV(responseData, 'Responses', 'xlsx', ".xlsx")
         }
-        if (e.key === 3) {
+        if (e.key === '3') {
             exportToCSV(responseData, 'Responses', 'csv', ".csv")
         }
     };

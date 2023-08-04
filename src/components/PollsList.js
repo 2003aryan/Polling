@@ -27,12 +27,16 @@ const PollsList = () => {
             });
     }, [userCtx.uuid]);
 
-    const getStatus = (endDate, endTime) => {
+  const getStatus = (endDate, endTime, startDate, startTime) => {
         const now = new Date();
         const finalDate = dayjs(endDate + " " + endTime, "YYYY-MM-DD HH:mm A")
         if (endDate && endTime && finalDate < now) {
-            return { status: 'Closed', color: 'red' };
+      return { status: 'Ended', color: 'red' };
         }
+    const initialDAte = dayjs(startDate + " "+ startTime, "YYYY-MM-DD HH:mm A");
+    if(initialDAte > now ){
+      return { status: 'Not Started', color: 'blue' };
+    }
         return { status: 'Live', color: 'green' };
     };
 
@@ -130,7 +134,7 @@ const PollsList = () => {
                     key="status"
                     align="center"
                     render={(endDate, record) => {
-                        const { status, color } = getStatus(endDate, record.endTime);
+            const { status, color } = getStatus(endDate, record.endTime, record.startDate, record.startTime);
                         return (<Tag color={color} key={status}>{status}</Tag>);
                     }}
                 />

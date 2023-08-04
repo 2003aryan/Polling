@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import UserContext from '../store/UserContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars, faPoll } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faPoll, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import '../css/custom.css';
 
 const Navbar = () => {
@@ -20,7 +20,7 @@ const Navbar = () => {
     return (
         <div style={{ marginBottom: '50px' }}>
             <nav className="nav-kc navbar navbar-expand-lg px-5">
-                <Link className="navbar-brand" to="/pollslist" style={{ fontStyle: 'italic' }}>
+                <Link className="navbar-brand mr-5" to="/pollslist" style={{ fontStyle: 'italic' }}>
                     <FontAwesomeIcon icon={faPoll} style={{ marginRight: '5px' }} />
                     LivePoll
                 </Link>
@@ -48,21 +48,18 @@ const Navbar = () => {
                         </li>
                         {uuid && (
                             <React.Fragment>
-                                <li className="nav-item active">
+                                <li className="nav-item active mr-5">
                                     <Link className="nav-link" to="/createpoll">
                                         Create Poll <span className="sr-only">(current)</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link className="nav-link" to="/pollslist">
-                                        Dashboard
+                                        Polls List
                                     </Link>
                                 </li>
                             </React.Fragment>
                         )}
-                        <li className="nav-item">
-                            {/* <Link className="nav-link" to="#">FAQs</Link> */}
-                        </li>
                     </ul>
                     {!uuid ? (
                         <span>
@@ -75,11 +72,11 @@ const Navbar = () => {
                         </span>
                     ) : (
                         <span
-                            className="navbar-text border px-3 rounded"
+                            className="navbar-text px-3 "
                             onClick={onLogoutHandler}
-                            style={{ cursor: 'pointer' }}
+                            style={{ cursor: 'pointer', fontWeight: 'bold' }}
                         >
-                            <Link to="/">Logout</Link>
+                                <FontAwesomeIcon icon={faSignOutAlt} /> Log out
                         </span>
                     )}
                 </div>

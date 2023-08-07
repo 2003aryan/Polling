@@ -18,15 +18,22 @@ const Register = () => {
         const trimmedPassword = password.trim();
         const trimmedConfirmPassword = confirmPassword.trim();
 
+        const nameRegex = /^[A-Za-z]+$/; // only alphabets allowed
+        if (!nameRegex.test(trimmedName)) {
+            setErrorMessage('Name should contain only alphabets.');
+            return;
+        }
+
         if (!trimmedName || !trimmedEmail || !trimmedPassword || !trimmedConfirmPassword) {
             setErrorMessage('All fields are required.');
             return;
         }
 
-        // if (/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/.test(trimmedEmail)) {
-        //     setErrorMessage('Please enter a valid email address.');
-        //     return;
-        // }
+        const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/; // Regular expression for email validation
+        if (!emailRegex.test(trimmedEmail)) {
+            setErrorMessage('Please enter a valid email address.');
+            return;
+        }
 
         if (trimmedPassword !== trimmedConfirmPassword) {
             setErrorMessage('Passwords do not match.');

@@ -44,10 +44,31 @@ router.post('/savedata', async (req, res) => {
 });
 
 router.post('/viewpoll/:id/saveans', async (req, res) => {
-    const result = await answers.insertOne(req.body);
-    console.log(result);
-    res.json({ message: 'Answer saved successfully' });
+    try {
+        const pollId = req.params.id;
+        const { ans, name, email, uuid } = req.body;
+
+        if (uuid) {
+            // Check if the user has already voted for this poll
+            const existingVote = await answers.findOne({ questionid: pollId, uuid });
+            if (existingVote) {
+                return res.status(409).json({ message: 'You have already voted for this poll.' });
+            }
+        }
+
+        // Save the user's vote
+        const voteData = { ans, questionid: pollId, name, email, uuid };
+        const result = await answers.insertOne(voteData);
+        console.log(result);
+
+        res.json({ message: 'Answer saved successfully' });
+    } catch (error) {
+        console.error('Error saving answer:', error);
+        res.status(500).json({ message: 'Failed to save answer' });
+    }
 });
+
+
 
 router.get('/viewpoll/:id/pollresults', async (req, res) => {
     try {

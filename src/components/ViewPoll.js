@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Typography, Radio, Space, Button, Input, Divider, message, Alert, Modal } from 'antd';
+import React, { useContext, useEffect, useState } from 'react';
+import { Typography, Radio, Space, Button, Input, Divider, message, Alert, Modal, Result } from 'antd';
 import '../css/custom.css';
 import { useHistory, useParams } from 'react-router-dom';
 import Countdown from 'react-countdown';
@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLink, faShareAlt } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 import { faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import UserContext from '../store/UserContext';
 
 const ViewPoll = () => {
 
@@ -22,6 +23,8 @@ const ViewPoll = () => {
     const [isEndDatePassed, setIsEndDatePassed] = useState(false);
     const [isRadioSelected, setIsRadioSelected] = useState(false);
     const now = dayjs().format('YYYY-MM-DD HH:mm:ss'); 
+    const { uuid } = useContext(UserContext);
+
     useEffect(() => {
         fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' : ''}/api/polls/viewpoll/${id}`)
             .then((res) => res.json())
@@ -31,19 +34,18 @@ const ViewPoll = () => {
 
                 const endDateTime = data.endDate && data.endTime ? dayjs(`${data.endDate} ${data.endTime}`, 'YYYY-MM-DD h:mm A').format('YYYY-MM-DD HH:mm:ss') : null;
                
-
                 if (data.endDate && data.endTime && now > endDateTime) {
                     setIsEndDatePassed(true);
                 } else {
                     setIsEndDatePassed(false);
                 }
 
-
             })
             .catch((error) => {
                 console.error('Error fetching data:', error);
             });
     }, []);
+
     const startDateTime = poll.startDate && poll.startTime ? dayjs(`${poll.startDate} ${poll.startTime}`, 'YYYY-MM-DD h:mm A').format('YYYY-MM-DD HH:mm:ss') : null;
     
     const handleAns = () => {
@@ -69,24 +71,39 @@ const ViewPoll = () => {
                 return;
             }
         }
-        const data = { ans, questionid: id, name, email }
+        const data = { ans, questionid: id, name, email, uuid }
         console.log('Submitting answer:', data);
         saveAns(data);
         setAns('');
-        message.success('Vote Submitted!');
-        history.push(`/success`);
+        // message.success('Vote Submitted!');
+        // history.push(`/success`);
     };
 
     const handleRadioClick = () => {
         setIsRadioSelected(true);
     };
 
-    const saveAns = (ans) => {
+    const saveAns = (data) => {
         fetch(`${process.env.NODE_ENV !== 'production' ? 'http://localhost:5001' : ''}/api/polls/viewpoll/${id}/saveans`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(ans),
+            body: JSON.stringify(data),
         })
+            .then(async (res) => {
+                if (res.status === 409) {
+                    const data = await res.json();
+                    messageApi.warning(data.message);
+                }
+                return res.json();
+            })
+            .then((data) => {
+                message.success('Vote Submitted!');
+                history.push(`/success`);
+                console.log(data);
+            })
+            .catch((error) => {
+                console.error('Error saving answer:', error);
+            });
     };
 
     const renderer = ({ days, hours, minutes, seconds, completed }) => {
@@ -128,16 +145,15 @@ const ViewPoll = () => {
 
     const pollEndTime = dayjs(poll.endTime, 'h:mm A').format('HH:mm:ss');
 
-
     return (
         <div className='component py-4 px-5 col-sm-5 mx-auto shadow'>{contextHolder}
 
             {isEndDatePassed && <Alert message="The poll has ended. Voting is no longer allowed." type="warning" showIcon className='mb-3' />}
             { startDateTime > now && <Alert message="The poll has not started. Voting is not permitted." type="info" showIcon className='mb-3' />}
-           
+
+           {!poll.login || uuid ? (<>
             {poll.reqName && (
                 <div>
-                    {console.log(poll.reqName)}
                     <Title level={4} className='mb-4'>Your Details</Title>
 
                     <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -205,6 +221,18 @@ const ViewPoll = () => {
             </Modal>
 
             {poll.endDate && <Countdown date={new Date(poll.endDate + "T" + pollEndTime)} renderer={renderer} />}
+            </>) : (<>
+                    <Result
+                        status="warning"
+                        title="You need to login to access the poll"
+                        extra={
+                            <Button type="primary" key="login" size='large' style={{ backgroundColor: 'navy' }}
+                                onClick={() => {history.push('/login');}}>
+                                Login
+                            </Button>
+                        }
+                    />
+            </>)}
         </div>
     );
 };

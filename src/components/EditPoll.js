@@ -20,6 +20,7 @@ const EditPoll = () => {
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [reqName, setReqName] = useState(false);
+    const [login, setLogin] = useState(false);
 
     useEffect(() => {
         // Fetch poll data based on the ID and populate the form fields
@@ -33,6 +34,7 @@ const EditPoll = () => {
                 setEndTime(data.endTime);
                 setOptions(data.options);
                 setReqName(data.reqName);
+                setLogin(data.login);
             })
             .catch((error) => console.error('Error fetching poll data:', error));
     }, [id]);
@@ -67,6 +69,7 @@ const EditPoll = () => {
             endTime,
             options: options.filter((option) => option !== ''),
             reqName,
+            login
         };
 
         // Send the updated poll data to the server
@@ -183,9 +186,14 @@ const EditPoll = () => {
                     <br />
                     <div>
                         <label htmlFor="toggleSwitch" style={{ marginRight: '10px' }}>
-                            Require participants' names and emails:
+                            Capture name and email:
                         </label>
                         <Switch id="toggleSwitch" checked={reqName} onChange={setReqName} />
+                        <br /><br />
+                        <label htmlFor="toggleSwitch2" style={{ marginRight: '10px' }}>
+                            Login mandatory:
+                        </label>
+                        <Switch id="toggleSwitch2" checked={login} onChange={setLogin} />
                     </div>
                 </Panel>
             </Collapse>

@@ -22,6 +22,12 @@ router.post('/register', async (req, res) => {
     const { name, email, password } = req.body;
     const uuid = uuidv4();
 
+    // Check if the email is already registered
+    const existingUser = await userCollection.findOne({ email });
+    if (existingUser) {
+        return res.status(409).json({ message: 'Email already registered. Please use a different email.' });
+    }
+
     const pollData = { name, email, password, uuid };
 
     const result = await userCollection.insertOne(pollData);

@@ -16,6 +16,7 @@ const CreatePoll = () => {
     const [endDate, setEndDate] = useState(null);
     const [endTime, setEndTime] = useState(null);
     const [reqName, setReqName] = useState(false);
+    const [login, setLogin] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
 
     const handleCreatePoll = () => {
@@ -27,6 +28,16 @@ const CreatePoll = () => {
 
         if (options.some((option) => option.trim() === '')) {
             messageApi.error('Please fill all the options.');
+            return;
+        }
+
+        if (startDate === null) {
+            messageApi.error('Please select a start date.');
+            return;
+        }
+
+        if (startTime === null) {
+            messageApi.error('Please select a start time.');
             return;
         }
 
@@ -56,10 +67,10 @@ const CreatePoll = () => {
             options: options.filter((option) => option !== ''),
             uuid,
             reqName,
+            login
         };
 
         saveDataToDatabase(pollData);
-        setQues('');
     };
 
     const saveDataToDatabase = (pollData) => {
@@ -76,6 +87,7 @@ const CreatePoll = () => {
                 setEndTime(null);
                 setOptions(['', '']);
                 setReqName(false);
+                setLogin(false);
                 messageApi.success('Poll Created Successfully')
             })
             .catch((error) => console.error('Error saving data:', error));
@@ -173,9 +185,14 @@ const CreatePoll = () => {
                     <br />
                     <div>
                         <label htmlFor="toggleSwitch" style={{ marginRight: '10px' }}>
-                            Require participants' names and emails:
+                            Capture name and email:
                         </label>
                         <Switch id="toggleSwitch" checked={reqName} onChange={setReqName}/>
+                        <br /><br />
+                        <label htmlFor="toggleSwitch2" style={{ marginRight: '10px' }}>
+                            Login mandatory:
+                        </label>
+                        <Switch id="toggleSwitch2" checked={login} onChange={setLogin} />
                     </div>
                 </Panel>
             </Collapse>

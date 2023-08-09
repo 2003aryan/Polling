@@ -24,19 +24,25 @@ const Register = () => {
             return;
         }
 
-        if (!trimmedName || !trimmedEmail || !trimmedPassword || !trimmedConfirmPassword) {
-            setErrorMessage('All fields are required.');
-            return;
-        }
-
-        const emailRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/; // Regular expression for email validation
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]+$/; // Regular expression for email validation
         if (!emailRegex.test(trimmedEmail)) {
             setErrorMessage('Please enter a valid email address.');
             return;
         }
 
+        const passwordRegex = /^(?=.*\d).{5,30}$/; // Regex for password with min length 5, max length 30, and at least 1 number
+        if (!passwordRegex.test(trimmedPassword)) {
+            setErrorMessage('Password should be between 5 and 30 characters and contain at least 1 number.');
+            return;
+        }
+
         if (trimmedPassword !== trimmedConfirmPassword) {
             setErrorMessage('Passwords do not match.');
+            return;
+        }
+
+        if (!trimmedName || !trimmedEmail || !trimmedPassword || !trimmedConfirmPassword) {
+            setErrorMessage('All fields are required.');
             return;
         }
 
@@ -56,7 +62,13 @@ const Register = () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(registerdata),
         })
-            .then((res) => res.json())
+            .then(async (res) => {
+                if (res.status === 409) {
+                    const data = await res.json();
+                    setErrorMessage(data.message); // Display the error message on the frontend
+                }
+                return res.json();
+            })
             .then((data) => {
                 console.log(data);
                 setSuccessMessage('Registeration successful. Please log in.');

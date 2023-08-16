@@ -70,6 +70,17 @@ const ViewPoll = () => {
                 messageApi.warning('Please enter email');
                 return;
             }
+            const nameRegex = /^[A-Za-z\s]+$/; // only alphabets allowed
+            if (!nameRegex.test(name)) {
+                messageApi.warning('Name should contain only alphabets.');
+                return;
+            }
+
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]+$/;
+            if (!emailRegex.test(email)) {
+                messageApi.warning('Please enter a valid email address.');
+                return;
+            }
         }
         const data = { ans, questionid: id, name, email, uuid }
         console.log('Submitting answer:', data);

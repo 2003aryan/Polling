@@ -18,21 +18,21 @@ const Register = () => {
         const trimmedPassword = password.trim();
         const trimmedConfirmPassword = confirmPassword.trim();
 
-        const nameRegex = /^[A-Za-z]+$/; // only alphabets allowed
+        const nameRegex = /^[A-Za-z\s]+$/; // only alphabets allowed
         if (!nameRegex.test(trimmedName)) {
             setErrorMessage('Name should contain only alphabets.');
             return;
         }
 
-        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[A-Za-z]+$/; // Regular expression for email validation
+        const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[A-Za-z]+$/;        
         if (!emailRegex.test(trimmedEmail)) {
             setErrorMessage('Please enter a valid email address.');
             return;
         }
 
-        const passwordRegex = /^(?=.*\d).{5,30}$/; // Regex for password with min length 5, max length 30, and at least 1 number
+        const passwordRegex = /^(?=.*\d)[\w.+\-]{5,30}$/; // Regex for password with min length 5, max length 30, and at least 1 number
         if (!passwordRegex.test(trimmedPassword)) {
-            setErrorMessage('Password should be between 5 and 30 characters and contain at least 1 number.');
+            setErrorMessage('Password should have atleast 1 number.');
             return;
         }
 

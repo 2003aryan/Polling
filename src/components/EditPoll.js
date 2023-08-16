@@ -61,6 +61,16 @@ const EditPoll = () => {
             return;
         }
 
+        if (startDate === null) {
+            setErrorMessage('Please select a start date.');
+            return;
+        }
+
+        if (startTime === null) {
+            setErrorMessage('Please select a start time.');
+            return;
+        }
+
         const pollData = {
             question: trimmedQuestion,
             startDate,

@@ -48,6 +48,17 @@ const CreatePoll = () => {
             return;
         }
 
+        if (endDate !== null && endTime !== null) {
+            const selectedEndDate = dayjs(endDate);
+            const selectedEndTime = dayjs(endTime);
+
+            if (selectedEndDate.isBefore(selectedStartDate, 'day') ||
+                (selectedEndDate.isSame(selectedStartDate, 'day') && selectedEndTime.isBefore(startTime))) {
+                messageApi.error('Please enter valid end date and time.');
+                return;
+            }
+        }
+
         if (options.length < 2) {
             messageApi.error('Please fill at least two options.');
             return;
